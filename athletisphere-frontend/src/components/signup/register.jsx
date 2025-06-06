@@ -129,7 +129,7 @@ const handleForm = (e)=>{
             <div className="form-group mt-2">
                 <button type="submit" className="btn btn-primary btn-block"> Create Account  </button>
             </div>    
-            <p className="text-center mt-2">Have an account? <a href="">Log In</a> </p>                                                                 
+            <p className="text-center mt-2">Have an account? <a href="">LogIn</a> </p>                                                                 
         </form>
         </article>
         </div>
