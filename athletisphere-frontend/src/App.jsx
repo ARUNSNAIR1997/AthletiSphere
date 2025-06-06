@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Register from './components/signup/register'
+import RegisterView from './components/signup/registerView'
+import RegisterUpdate from './components/signup/registerUpdate'
 
 function App() {
 
@@ -13,6 +15,8 @@ function App() {
     <BrowserRouter>
     <Routes>
     <Route path='/register' element={<Register/>}/>
+    <Route path='/registerview' element={<RegisterView/>}/>
+    <Route path='/registerupdate' element={<RegisterUpdate/>}/>
     </Routes>
     </BrowserRouter>
     </>
