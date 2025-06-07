@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminNav from "../../partials/adminNav";
 
 
 function Register(){
@@ -50,7 +51,11 @@ const handleForm = (e)=>{
 
     return(
         <>
-        <div className="register-cont container">
+
+{/* navbar */}
+<AdminNav/>
+
+        <div className="body-cont container">
     <div className="register">
         <article className="register-body mx-auto">
             <h4 className="card-title mt-3 text-center">Create Account</h4>

@@ -1,18 +1,29 @@
+:root{
+  --navbackground-color: #008CBA;
+  --bodyone-color: #C9E6F0;
+  --bodytwo-color: #FBFBFB;
+  --footerbackground-color: #FFDDAE;
+}
 
-
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body{
-  background-color: rgb(0, 0, 0);
-  color: rgb(255, 255, 255);
+  background-color: white;
+  color: rgb(0, 0, 0);
 }
 
-.register-cont{
-  padding: 100px;
+/* admin register */
+.body-cont{
+  padding-top: 100px;
 }
 
-/* .register{
-  background-color: #222831;
-} */
+.register{
+  background-color: var(--bodyone-color);
+}
 
 .register .form-group{
   display: flex;
@@ -22,4 +33,65 @@ body{
 
 .register .register-body{
   max-width: 400px;
+}
+
+
+
+/* admin nav */
+
+header {
+  background-color: var(--navbackground-color);
+  padding: 20px;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+header .logo{
+  font-size: 18px;
+  background-color: black;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+header .nav a{
+color: black;
+display: block;
+margin: 0 5px;
+padding: 5px;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a{
+  text-decoration: none;
+}
+
+.display-flex{
+  display: flex;
+}
+
+
+
+/* sports */
+
+.sports-cont{
+  background-color: var(--bodyone-color);
+}
+
+
+/* venue */
+.venue-cont{
+  background-color: var(--bodyone-color);
+}
+
+/* amenities */
+.amenities-cont{
+  background-color: var(--bodyone-color);
 }
