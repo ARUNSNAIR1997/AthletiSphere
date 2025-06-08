@@ -11,6 +11,9 @@ import TurfOwner from './components/owner/turfOwner'
 import SportsDetails from './components/admin/sportsDetails'
 import Amenities from './components/admin/amenities'
 import Venue from './components/admin/venue '
+import AdminRegister from './components/admin/adminsignup/adminregister'
+import AdminLogin from './components/admin/adminsignup/adminLogin'
+import AdminHome from './components/admin/adminHome'
 
 function App() {
 
@@ -27,6 +30,9 @@ function App() {
     <Route path='/sports' element={<SportsDetails/>}/>
     <Route path='/amenities' element={<Amenities/>}/>
     <Route path='/venue' element={<Venue/>}/>
+    <Route path='/adminregister' element={<AdminRegister/>}/>
+    <Route path='/adminlogin' element={<AdminLogin/>}/>
+    <Route path='/' element={<AdminHome/>}/>
     </Routes>
     </BrowserRouter>
     </>

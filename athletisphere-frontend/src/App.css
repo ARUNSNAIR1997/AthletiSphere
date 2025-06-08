@@ -95,3 +95,8 @@ a{
 .amenities-cont{
   background-color: var(--bodyone-color);
 }
+
+/* adminlogin */
+.adminlogin-cont{
+  background-color: var(--bodyone-color);
+}
