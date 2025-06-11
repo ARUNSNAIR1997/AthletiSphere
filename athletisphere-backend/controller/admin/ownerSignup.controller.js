@@ -12,8 +12,7 @@ exports.signupIndex = async(req, res)=>{
             District: req.body.District,
             State: req.body.State,
             Country: req.body.Country,
-            Pincode: req.body.Pincode,
-            Email: req.body.Email
+            Pincode: req.body.Pincode
         }
         const newSignup = await signupModel.create(signupParams)
 
@@ -22,7 +21,7 @@ exports.signupIndex = async(req, res)=>{
         const loginParams ={
             Email: req.body.Email,
             Password: hashedPassword,
-            Role: "owner",
+            role: req.body.role,
             regId: newSignup._id
         }
 

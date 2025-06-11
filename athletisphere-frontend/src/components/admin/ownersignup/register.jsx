@@ -32,7 +32,8 @@ const handleForm = (e)=>{
         Country:getCountry,
         Pincode:getPin,
         Email:getEmail,
-        Password:getPassword
+        Password:getPassword,
+        role:"owner"
     }
     fetch("http://localhost:8000/sports/register",{
         method:"post",

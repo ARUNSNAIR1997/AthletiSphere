@@ -7,7 +7,7 @@ exports.adminRegisterIndex = async(req, res)=>{
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            userStatus: req.body.userStatus
+            role: req.body.role
         }
         const newRegister = await adminSignupModel.create(registerParams)
 
@@ -39,7 +39,7 @@ exports.adminLoginIndex = async(req,res)=>{
 
 
         // Check if user is admin
-        if(user.userStatus === "admin"){
+        if(user.role === "admin"){
             req.session.user=user;
             return res.json(user); // login success
         }else {

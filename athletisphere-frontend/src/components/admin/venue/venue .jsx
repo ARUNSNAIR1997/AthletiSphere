@@ -1,8 +1,29 @@
-import React from "react";
-import AdminNav from "../partials/adminNav";
+import React, { useState } from "react";
+import AdminNav from "../../partials/adminNav";
+import { useNavigate } from "react-router-dom";
 
 
 function Venue(){
+
+const navigate = useNavigate()
+const [getName, setName] = useState("")
+const [getIcon, setIcon] = useState("")
+
+const handleForm = (e)=>{
+  e.preventDefault()
+  let formdata = new FormData()
+  formdata.append("venue_name",getName)
+  formdata.append("venue_icon",getIcon)
+  fetch("http://localhost:8000/sports/venue",{
+    method:"post",
+    body: formdata
+  }).then((res)=>res.json()).then((result)=>{
+    console.log("venue inserted",result);
+    navigate("/venueview")
+  })
+}
+
+
     return(
         <>
 
@@ -15,14 +36,15 @@ function Venue(){
           <div className="card shadow-sm">
             <div className="card-body venue-cont">
               <h2 className="card-title text-center mb-4">Venue</h2>
-              <form>
+              <form onSubmit={handleForm}>
                 <div className="mb-3">
                   <label htmlFor="amenityName" className="form-label">Venue Name</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="amenityName"
+                    id="getName"
                     placeholder="Enter the amenity name"
+                    onChange={(e)=>setName(e.target.value)}
                   />
                 </div>
 
@@ -31,7 +53,8 @@ function Venue(){
                   <input
                     type="file"
                     className="form-control"
-                    id="amenityIcon"
+                    id="getIcon"
+                    onChange={(e)=>setIcon(e.target.files[0])}
                   />
                 </div>
 

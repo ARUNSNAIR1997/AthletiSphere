@@ -13,7 +13,7 @@ const adminSignupSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    userStatus:{
+    role:{
         type:String,
         required:true
     },

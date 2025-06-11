@@ -16,7 +16,7 @@ const handleForm = (e)=>{
     name:getName,
     email:getEmail,
     password:getPassword,
-    userStatus:"admin"
+    role:"admin"
  }
  fetch("http://localhost:8000/sports/adminregister",{
     method:"post",
