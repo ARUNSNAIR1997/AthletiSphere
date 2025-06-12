@@ -1,6 +1,11 @@
 const mongoose = require("mongoose")
 
 const venueSchema = mongoose.Schema({
+    venue_sports:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "sport",
+        required: true
+    },
     venue_name:{
         type:String,
         required:true

@@ -36,6 +36,17 @@ router.post("/venue",venueController.venueInsert)
 router.get("/venueview",venueController.venueView)
 router.delete("/venuedelete/:venueId",venueController.venueDelete)
 router.get("/venueedit/:venueId",venueController.venueEdit)
+router.post("/venueupdate",venueController.venueUpdate)
+
+
+//sports
+var sportsController = require("../controller/admin/sports.contoller")
+
+router.post("/sports",sportsController.sportsInsert)
+router.get("/sportsview",sportsController.sportsView)
+router.delete("/sportsdelete/:sportsId",sportsController.sportsDelete)
+router.get("/sportsedit/:sportsId",sportsController.sportsEdit)
+router.post("/sportsupdate",sportsController.sportsUpdate)
 
 
 module.exports=router

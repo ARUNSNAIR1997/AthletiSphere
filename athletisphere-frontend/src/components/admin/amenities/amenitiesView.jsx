@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import AdminNav from "../../partials/adminNav";
 
 
 function AmenitiesView(){
@@ -29,6 +30,9 @@ const handleDelete = (amenitieId)=>{
 
     return(
         <>
+<AdminNav/>
+
+
         <div className="container body-cont">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-primary fw-bold">Amenities</h2>
@@ -43,6 +47,7 @@ const handleDelete = (amenitieId)=>{
             <tr>
               <th>Amenitie Name</th>
               <th>Icon</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>

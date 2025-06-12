@@ -100,3 +100,27 @@ a{
 .adminlogin-cont{
   background-color: var(--bodyone-color);
 }
+
+/* home */
+/* .home .card{
+  height: 200px;
+} */
+
+.home .card{
+  height: 200px;
+  width: 100%;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform .5s;
+}
+
+.home .card:hover{
+    transform: scale(0.9);
+}
+
+.home .card .card-img-overlay{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

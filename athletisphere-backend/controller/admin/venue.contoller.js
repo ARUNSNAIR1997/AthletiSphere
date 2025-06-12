@@ -7,6 +7,7 @@ exports.venueInsert = async(req,res)=>{
     const iconPath = path.join(__dirname,"../../public/img/" + file)
     req.files.venue_icon.mv(iconPath, async(err)=>{
            const params={
+            venue_sports:req.body.venue_sports,
             venue_name:req.body.venue_name,
             venue_icon:file
            }
@@ -29,7 +30,7 @@ exports.venueInsert = async(req,res)=>{
 
 exports.venueView = async(req,res)=>{
     try{
-        let view = await venueModel.find()
+        let view = await venueModel.find().populate("venue_sports", "sports_name")
         res.json(view)
     }
     catch(err){
@@ -60,5 +61,26 @@ exports.venueEdit = async(req,res)=>{
     }catch(err){
         console.error(err);
         
+    }
+}
+
+
+exports.venueUpdate = async(req,res)=>{
+    try{
+        let imageName = req.body.existingVenue_icon;
+        if(req.files && req.files.venue_icon){
+            const file = req.files.venue_icon
+            imageName = file.name
+            const imagePath = path.join(__dirname,"../../public/img/" + imageName)
+            await file.mv(imagePath)
+        }
+        await venueModel.findByIdAndUpdate(req.body.id, {
+            venue_sports:req.body.venue_sports,
+            venue_name: req.body.venue_name,
+            venue_icon: imageName
+        })
+        res.json("update successfully")
+    }catch(error){
+        res.status(500).json({error: "update failed"})
     }
 }

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import AdminNav from "../../partials/adminNav";
 
 
 function AmenitiesUpdate(){
@@ -50,6 +51,9 @@ const handleForm = (e)=>{
 
     return(
         <>
+<AdminNav/>
+
+
         <div className="container py-5">
       <div className="row justify-content-center body-cont">
         <div className="col-md-8 col-lg-6">

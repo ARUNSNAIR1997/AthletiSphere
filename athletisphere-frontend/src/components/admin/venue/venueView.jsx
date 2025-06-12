@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import AdminNav from "../../partials/adminNav";
 
 
 function VenueView(){
@@ -29,6 +30,9 @@ const handleDelete = (venueId)=>{
 
     return(
         <>
+<AdminNav/>
+
+
         <div className="container body-cont">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-primary fw-bold">Venue</h2>
@@ -41,6 +45,7 @@ const handleDelete = (venueId)=>{
         <table className="table table-hover table-bordered text-center align-middle">
           <thead className="table-primary">
             <tr>
+              <th>Sports name</th>
               <th>Venue Name</th>
               <th>Icon</th>
               <th>Action</th>
@@ -49,6 +54,7 @@ const handleDelete = (venueId)=>{
           <tbody>
             {getView.map((item, index) => (
               <tr key={index}>
+                <td>{item.venue_sports?.sports_name}</td>
                 <td>{item.venue_name}</td>
                 <td><img src={`http://localhost:8000/img/${item.venue_icon}`} width={100} height={100} alt="" /></td>
                 <td>

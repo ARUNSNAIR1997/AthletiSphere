@@ -39,7 +39,7 @@ const handleForm = ()=>{
 
 
         <section class="vh-100 gradient-custom body-cont">
-  <div class="container py-5 h-100">
+  <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card adminlogin-cont text-black">
@@ -60,15 +60,15 @@ const handleForm = ()=>{
                 <label class="form-label" for="typePasswordX">Password</label>
               </div>
 
-              <p class="small mb-5 pb-lg-2"><a class="text-black-50" href="#!">Forgot password?</a></p>
+              {/* <p class="small mb-5 pb-lg-2"><a class="text-black-50" href="#!">Forgot password?</a></p> */}
 
               <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-lg px-5" type="submit" onClick={handleForm}>Login</button>
             </div>
 
-            <div>
+            {/* <div>
               <p class="mb-0">Don't have an account? <a href="#!" class="text-black-50 fw-bold">Sign Up</a>
               </p>
-            </div>
+            </div> */}
 
           </div>
         </div>
