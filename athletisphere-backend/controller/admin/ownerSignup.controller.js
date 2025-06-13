@@ -36,6 +36,34 @@ exports.signupIndex = async(req, res)=>{
 }
 
 
+exports.signupLogin = async(req,res)=>{
+  try{
+    const {Email, Password} = req.body;
+
+    const user = await loginModel.findOne({Email})
+
+    if(!user){
+      return res.status(401).json("invalid")
+    }
+
+    const isMatch = await bcrypt.compare(Password, user.Password);
+    if(!isMatch){
+      return res.status(401).json("invalid")
+    }
+
+    if(user.role==="owner"){
+      req.session.user=user;
+      return res.json(user)
+    }else{
+      return res.status(401).json("invalid")
+    }
+  }catch (err) {
+    console.error(err);
+    return res.status(500).json("server error");
+}
+}
+
+
 
 
 

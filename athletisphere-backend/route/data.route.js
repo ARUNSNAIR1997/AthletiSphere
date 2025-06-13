@@ -10,6 +10,7 @@ router.get("/registerview",ownerSignupController.signupView)
 router.delete("/registerdelete/:loginId",ownerSignupController.signupDelete)
 router.post("/registeredit/:loginId",ownerSignupController.signupEdit)
 router.post("/registerupdate/:loginId",ownerSignupController.signupUpdate)
+router.post("/ownerlogin",ownerSignupController.signupLogin)
 
 
 //admin register
@@ -47,6 +48,13 @@ router.get("/sportsview",sportsController.sportsView)
 router.delete("/sportsdelete/:sportsId",sportsController.sportsDelete)
 router.get("/sportsedit/:sportsId",sportsController.sportsEdit)
 router.post("/sportsupdate",sportsController.sportsUpdate)
+
+
+//turf
+var turfController = require("../controller/owner/turf.controller")
+
+router.post("/turf",turfController.turfInsert)
+router.get("/turfview",turfController.turfView)
 
 
 module.exports=router

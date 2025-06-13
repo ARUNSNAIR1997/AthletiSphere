@@ -124,3 +124,26 @@ a{
   align-items: center;
   text-align: center;
 }
+
+
+
+
+/* owner login */
+
+
+.ownerlogin i{
+  color: #709085;
+}
+
+.ownerlogin form{
+  width: 23rem;
+}
+
+.ownerlogin form h3{
+  letter-spacing: 1px;
+}
+
+.ownerlogin img{
+  object-fit: cover;
+  object-position: left;
+}
