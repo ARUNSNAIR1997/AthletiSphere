@@ -1,13 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function AdminNav(){
-
+function UserNav(){
 const navigate = useNavigate()
-
 const handleLogout = ()=>{
     localStorage.clear()
-    navigate("/adminlogin")
+    navigate("/userlogin")
 }
 
 
@@ -24,4 +22,4 @@ const handleLogout = ()=>{
     )
 }
 
-export default AdminNav
+export default UserNav

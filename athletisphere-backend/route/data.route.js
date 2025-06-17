@@ -55,6 +55,16 @@ var turfController = require("../controller/owner/turf.controller")
 
 router.post("/turf",turfController.turfInsert)
 router.get("/turfview",turfController.turfView)
+router.delete("/turfdelete/:turfId",turfController.turfDelete)
+router.get("/turfedit/:turfId",turfController.turfEdit)
+router.post("/turfupdate",turfController.turfUpdate)
+
+
+//user
+var userController = require("../controller/user/userSignup.Controller")
+
+router.post("/userregister",userController.userInsert)
+router.post("/userlogin",userController.userLogin)
 
 
 module.exports=router

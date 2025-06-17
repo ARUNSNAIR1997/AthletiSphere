@@ -22,24 +22,32 @@ import SportsView from './components/admin/sports/sportsView'
 import SportsUpdate from './components/admin/sports/sportsUpdate'
 import OwnerLogin from './components/owner/ownerLogin'
 import TurfView from './components/owner/turf/turfView'
+import TurfUpdate from './components/owner/turf/turfUpdate'
+import UserSignup from './components/user/login/userLogin'
+import UserRegister from './components/user/login/userRegister'
+import UserHome from './components/user/userHome'
+import UserNav from './components/partials/usernav'
+import OwnerNav from './components/partials/ownernav'
 
 function App() {
 
 const [getAdmin, setAdmin] = useState(JSON.parse(localStorage.getItem("admindata")))
+const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
+const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
 
   return (
     <>
     {/* Admin */}
     <BrowserRouter>
-    { getAdmin == null ? (
+    { getAdmin === null ? (
     <Routes>
     
     <Route path='/adminregister' element={<AdminRegister/>}/>
-    <Route path='/' element={<AdminLogin/>}/>
+    <Route path='/adminlogin' element={<AdminLogin/>}/>
     
     
     </Routes>
-    ) : getAdmin.role = "admin" ? (
+    ) : getAdmin.role === "admin" ? (
       <Routes>
     <Route path='/' element={<AdminHome/>}/>
     <Route path='/register' element={<Register/>}/>
@@ -63,11 +71,36 @@ const [getAdmin, setAdmin] = useState(JSON.parse(localStorage.getItem("admindata
 
     {/* Owner */}
     <BrowserRouter>
+    { getOwner === null ? (
     <Routes>
       <Route path='/ownerlogin' element={<OwnerLogin/>}/>
-      <Route path='/turf' element={<TurfOwner/>}/>
-      <Route path='/turfview' element={<TurfView/>}/>
     </Routes>
+    ) : getOwner.role === "owner" ? (
+      <Routes>
+      <Route path='/turf' element={<TurfOwner/>}/>
+      <Route path='/' element={<TurfView/>}/>
+      <Route path='/turfupdate' element={<TurfUpdate/>}/>
+      <Route path='/ownernav' element={<OwnerNav/>}/>
+      </Routes>
+      ) : ''
+    }
+    </BrowserRouter>
+
+
+    {/* user */}
+    <BrowserRouter>
+    { getUser === null ? (
+    <Routes>
+      <Route path='/userlogin' element={<UserSignup/>}/>
+      <Route path='/userregister' element={<UserRegister/>}/>
+      <Route path='/usernav' element={<UserNav/>}/>
+    </Routes>
+    ) : getUser.role === "user" ? (
+      <Routes>
+      <Route path='/' element={<UserHome/>}/>
+      </Routes>
+      ) : ''
+    }
     </BrowserRouter>
     </>
   )

@@ -25,7 +25,7 @@ const handleForm = (e)=>{
         console.log("login successfully",result);
         if(result!=="invalid"){
             localStorage.setItem("ownerdata",JSON.stringify(result))
-            window.location.href="/turf"
+            window.location.href="/"
         }
     })
 }

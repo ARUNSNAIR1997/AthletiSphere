@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import OwnerNav from "../../partials/ownernav";
 
 
-function TurfOwner(){
 
-const navigate = useNavigate()
+function TurfUpdate(){
+
+
 
 const [getSports, setSports] = useState([])
 const [getVenue, setVenue] = useState([])
@@ -15,8 +16,13 @@ const [getPrice, setPrice] = useState("")
 const [selectedSport, setSelectedSport] = useState(""); // for sport
 const [selectedVenues, setSelectedVenues] = useState([]);
 const [selectedAmenities, setSelectedAmenities] = useState([]);
+const [dbImages, setDbImages] = useState([]);
 
-const [getOwner,setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
+const location = useLocation()
+const turfId = location.state?.id;
+console.log("location",location);
+const navigate = useNavigate()
+
 
 //sports
 useEffect(()=>{
@@ -45,49 +51,66 @@ useEffect(()=>{
 
 
 
+useEffect(()=>{
+    if(turfId){
+        fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
+            console.log("output",result);
+            setSelectedSport(result.sports)
+            setSelectedVenues(result.venues)
+            setSelectedAmenities(result.amenities)
+            setPrice(result.price)
+            setImages(result.images)
+            setDbImages(result.images); // result.images should be array of filenames
+        })
+    }
+},[])
 
-//insert
-const handleSubmit = (e)=>{
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append("sports",selectedSport)
-  formData.append("price",getPrice)
-  formData.append("owner",getOwner._id)
 
-selectedVenues.forEach(id => formData.append("venues[]", id));
-selectedAmenities.forEach(id => formData.append("amenities[]", id));
-getImages.forEach(file => formData.append("images", file));
+const handleForm = (e)=>{
+  e.preventDefault()
+  let formdata = new FormData()
+  formdata.append("id",turfId)
+  formdata.append("sports",selectedSport)
+  formdata.append("price",getPrice)
+  selectedVenues.forEach(id => formdata.append("venues[]", id));
+  selectedAmenities.forEach(id => formdata.append("amenities[]", id));
+  
+  // Append newly selected files
+  getImages.forEach(file => formdata.append("images", file));
 
+  // Append existing images to preserve them
+  dbImages.forEach(imgName => formdata.append("existingImages[]", imgName));
 
-
-  fetch("http://localhost:8000/sports/turf",{
+  fetch("http://localhost:8000/sports/turfupdate",{
     method:"post",
-    body:formData
+    body:formdata
   }).then((res)=>res.json()).then((result)=>{
-    console.log("inserted",result);
+    console.log(result);
     navigate("/turfview")
   })
 }
 
 
+
+    
     return(
         <>
 <OwnerNav/>
 
-<div className="container py-5">
+        <div className="container py-5">
   <div className="row justify-content-center">
     <div className="col-md-10 col-lg-8 body-cont">
       <div className="card shadow-sm">
         <div className="card-body">
           <h2 className="card-title text-center mb-4">Create Turf Details</h2>
-          <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <form onSubmit={handleForm}>
             <div className="row">
 
               {/* Sport Type */}
               <div className="col-md-6 mb-3">
                 <label htmlFor="sportType" className="form-label">Sport Type</label>
 
-                <select className="form-select" required onChange={(e) => setSelectedSport(e.target.value)} value={selectedSport}>
+                <select className="form-select" required onChange={(e) => setSports(e.target.value)} value={selectedSport}>
                 <option value="">Select sport</option>
                 {getSports.map((item) => (
                 <option key={item._id} value={item._id}>{item.sports_name}</option>
@@ -118,6 +141,18 @@ getImages.forEach(file => formData.append("images", file));
               {/* You can use this space for another field or leave it blank */}
               <div className="col-md-6 mb-3">
                 {/* Placeholder for additional input or spacing */}
+                
+                {dbImages.map((imgName, index) => (
+                <div key={`db-${index}`}>
+                <img
+                src={`http://localhost:8000/img/${imgName}`}
+                width={100}
+                height={100}
+                alt="DB"
+                style={{ margin: "5px" }}
+                />
+                </div>
+                ))}
               </div>
             </div>
 
@@ -158,7 +193,7 @@ getImages.forEach(file => formData.append("images", file));
       <input
         className="form-check-input"
         type="checkbox"
-        // id={`amenity-${item._id}`}
+        id={`amenity-${item._id}`}
         value={item._id}
         onChange={(e) => {
           const { value, checked } = e.target;
@@ -189,11 +224,10 @@ getImages.forEach(file => formData.append("images", file));
     </div>
   </div>
 </div>
-
         </>
     )
 }
 
 
 
-export default TurfOwner
+export default TurfUpdate

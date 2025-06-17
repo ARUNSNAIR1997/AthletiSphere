@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+
+
+function UserSignup(){
+
+const [getEmail, setEmail] = useState("")
+const [getPassword, setPassword] = useState("")
+
+const handleForm = (e)=>{
+  e.preventDefault()
+  let params = {
+    email:getEmail,
+    password:getPassword
+  }
+  fetch("http://localhost:8000/sports/userlogin",{
+    method:"post",
+    headers:{
+      Accept:'application/json',
+      "Content-Type":"application/json"
+    },body:JSON.stringify(params)
+  }).then((res)=>res.json()).then((result)=>{
+    console.log("login successfully",result);
+    if(result!=="invalid"){
+      localStorage.setItem("userdata",JSON.stringify(result))
+      window.location.href="/"
+    }
+  })
+}
+
+    return(
+        <>
+<section className="userlogin vh-100">
+  <div className="container py-5 h-100">
+    <div className="row d-flex justify-content-center align-items-center h-100">
+      <div className="col col-xl-10">
+        <div className="card">
+          <div className="row g-0">
+            <div className="col-md-6 col-lg-5 d-none d-md-block">
+              <img src="sports.png"
+                alt="login form" className="img-fluid w-100 vh-100" />
+            </div>
+            <div className="col-md-6 col-lg-7 d-flex align-items-center">
+              <div className="card-body p-4 p-lg-5 text-black">
+
+                <form onSubmit={handleForm}>
+
+                  <div className="d-flex align-items-center mb-3 pb-1">
+                    <i className="fas fa-cubes fa-2x me-3"></i>
+                    <span className="h1 fw-bold mb-0">Logo</span>
+                  </div>
+
+                  <h5 className="fw-normal mb-3 pb-3">Sign into your account</h5>
+
+                  <div data-mdb-input-init className="form-outline mb-4">
+                    <input type="email" id="form2Example17" className="form-control form-control-lg" value={getEmail} onChange={(e)=>setEmail(e.target.value)}/>
+                    <label className="form-label" for="form2Example17">Email address</label>
+                  </div>
+
+                  <div data-mdb-input-init className="form-outline mb-4">
+                    <input type="password" id="form2Example27" className="form-control form-control-lg" value={getPassword} onChange={(e)=>setPassword(e.target.value)}/>
+                    <label className="form-label" for="form2Example27">Password</label>
+                  </div>
+
+                  <div className="pt-1 mb-4">
+                    <button data-mdb-button-init data-mdb-ripple-init className="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                  </div>
+
+                  <a className="small text-muted" href="#!">Forgot password?</a>
+                  <p className="mb-5 pb-lg-2">Don't have an account? <a href="#!"
+                      >Register here</a></p>
+                  <a href="#!" className="small text-muted">Terms of use.</a>
+                  <a href="#!" className="small text-muted">Privacy policy</a>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+        </>
+    )
+}
+
+
+export default UserSignup

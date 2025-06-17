@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from "react";
 import { Link } from "react-router-dom";
+import OwnerNav from "../../partials/ownernav";
 
 function TurfView(){
 
@@ -12,8 +13,24 @@ useEffect(()=>{
     })
 },[])
 
+const handleDelete = (turfId)=>{
+  if(window.confirm("Are you sure?")){
+    fetch(`http://localhost:8000/sports/turfdelete/${turfId}`,{
+      method:"DELETE"
+    }).then((res)=>res.json()).then((result)=>{
+      console.log("deleted successfully",result);
+      setView((prev) => prev.filter((item) => item._id !== turfId));
+    })
+  }
+}
+
+
+
     return(
         <>
+
+<OwnerNav/>
+
         <div className="container body-cont">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-primary fw-bold">Turf</h2>
@@ -57,7 +74,7 @@ useEffect(()=>{
                 <td>
                     {item.images.map((m, n)=>(
                         <span key={n}>
-                            <img src={`http://localhost:8000/img/${m}`} width={100} height={100} alt="" />&nbsp;&nbsp;
+                            <img src={`http://localhost:8000/img/${m}`} width={100} height={100} alt="" /><button>Delete</button>
                         </span>
                     
                     ))}
@@ -73,7 +90,7 @@ useEffect(()=>{
                     </Link>
                     <button
                       className="btn btn-sm btn-danger"
-                    //   onClick={() => handleDelete(item._id)}
+                      onClick={() => handleDelete(item._id)}
                     >
                       Delete
                     </button>
