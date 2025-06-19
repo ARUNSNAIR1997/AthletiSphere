@@ -1,9 +1,10 @@
-const { signupModel, loginModel } = require("../../model/admin/ownerSignup.model")
+const signupModel = require("../../model/admin/ownerSignup.model")
 const bcrypt = require("bcrypt");
 
 
 exports.signupIndex = async(req, res)=>{
     try{
+       const hashedPassword = await bcrypt.hash(req.body.Password, 10);
         const signupParams ={
             Turf_Name: req.body.Turf_Name,
             Phone: req.body.Phone,
@@ -12,20 +13,12 @@ exports.signupIndex = async(req, res)=>{
             District: req.body.District,
             State: req.body.State,
             Country: req.body.Country,
-            Pincode: req.body.Pincode
-        }
-        const newSignup = await signupModel.create(signupParams)
-
-        const hashedPassword = await bcrypt.hash(req.body.Password, 10);
-
-        const loginParams ={
+            Pincode: req.body.Pincode,
             Email: req.body.Email,
             Password: hashedPassword,
-            role: req.body.role,
-            regId: newSignup._id
+            role: req.body.role
         }
-
-        await loginModel.create(loginParams)
+        await signupModel.create(signupParams)
 
         res.json("successfully registered")
     }
@@ -36,32 +29,45 @@ exports.signupIndex = async(req, res)=>{
 }
 
 
-exports.signupLogin = async(req,res)=>{
-  try{
-    const {Email, Password} = req.body;
 
-    const user = await loginModel.findOne({Email})
 
-    if(!user){
-      return res.status(401).json("invalid")
+exports.signupLogin = async(req, res) => {
+  try {
+    const { Email, Password } = req.body;
+
+    console.log("➡️ Login request received");
+    console.log("Email:", Email);
+    console.log("Password (plain):", Password);
+
+    const user = await signupModel.findOne({ Email });  // Step 1: User Lookup
+
+    if (!user) {
+      console.log("❌ User not found");
+      return res.status(401).json("invalid");           // Step 2: Email not found
     }
 
-    const isMatch = await bcrypt.compare(Password, user.Password);
-    if(!isMatch){
-      return res.status(401).json("invalid")
+    console.log("✅ User found:", user);
+
+    const isMatch = await bcrypt.compare(Password, user.Password); // Step 3: Password check
+    if (!isMatch) {
+      console.log("❌ Password incorrect");
+      return res.status(401).json("invalid");            // Step 4: Wrong password
     }
 
-    if(user.role==="owner"){
-      req.session.user=user;
-      return res.json(user)
-    }else{
-      return res.status(401).json("invalid")
+    if (user.role === "owner") {  
+      console.log("✅ Role is owner");                       // Step 5: Role check
+      req.session.user = user;
+      return res.json(user);                             // ✅ Login success
+    } else {
+      return res.status(401).json("invalid");            // Step 6: Role mismatch
     }
-  }catch (err) {
+  } catch (err) {
     console.error(err);
     return res.status(500).json("server error");
-}
-}
+  }
+};
+
+
 
 
 
@@ -71,7 +77,7 @@ exports.signupLogin = async(req,res)=>{
 // GET /sports/registerview
 exports.signupView = async (req, res) => {
   try {
-    const data = await loginModel.find().populate("regId");
+    const data = await signupModel.find()
     res.json(data);
   } catch (err) {
     console.error(err);
@@ -85,10 +91,7 @@ exports.signupView = async (req, res) => {
 exports.signupDelete = async(req,res)=>{
   try {
     const loginId = req.params.loginId;
-    const loginRecord = await loginModel.findByIdAndDelete(loginId);
-    if (loginRecord) {
-      await signupModel.findByIdAndDelete(loginRecord.regId);
-    }
+    await signupModel.findByIdAndDelete(loginId);
     res.json({ message: "Deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Delete failed" });
@@ -100,7 +103,7 @@ exports.signupDelete = async(req,res)=>{
 exports.signupEdit = async(req,res)=>{
     try{
         const loginId = req.params.loginId;
-        let edit = await loginModel.findById(loginId).populate("regId")
+        let edit = await signupModel.findById(loginId)
         res.json(edit)
     }
     catch(err){
@@ -117,14 +120,14 @@ exports.signupUpdate = async(req,res)=>{
 
         const hashedPassword = await bcrypt.hash(req.body.Password, 10);
 
-        const login = await loginModel.findByIdAndUpdate(loginId,{
-            Email: req.body.Email,
-            Password: hashedPassword
-        }, {new:true})
+        // const login = await signupModel.findByIdAndUpdate(loginId,{
+        //     Email: req.body.Email,
+        //     Password: hashedPassword
+        // }, {new:true})
 
         
 
-        const signup = await signupModel.findByIdAndUpdate(login.regId,{
+        const signup = await signupModel.findByIdAndUpdate(loginId,{
             Turf_Name: req.body.Turf_Name,
       Phone: req.body.Phone,
       Other_Number: req.body.Other_Number,
@@ -132,10 +135,12 @@ exports.signupUpdate = async(req,res)=>{
       District: req.body.District,
       State: req.body.State,
       Country: req.body.Country,
-      Pincode: req.body.Pincode
+      Pincode: req.body.Pincode,
+      Email: req.body.Email,
+      Password: hashedPassword
         }, {new:true})
 
-        res.json({login,signup})
+        res.json({signup})
     }catch (err) {
     console.error(err);
     res.status(500).json({ message: "Update failed" });

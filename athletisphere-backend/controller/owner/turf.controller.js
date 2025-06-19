@@ -20,6 +20,7 @@ exports.turfInsert = async(req,res)=>{
       venues: req.body["venues[]"], // expected as array
       amenities: req.body["amenities[]"], // expected as array
       images: imageNames,
+      turf_name: req.body.turf_name
     });
 
     await newTurf.save();
@@ -64,7 +65,7 @@ exports.turfDelete = async(req,res)=>{
 exports.turfEdit = async(req,res)=>{
   try{
     const turfId = req.params.turfId;
-    const edit = await turfModel.findById(turfId)
+    const edit = await turfModel.findById(turfId).populate("sports", "sports_name")
     res.json(edit)
   }catch(err){
     console.error(err);

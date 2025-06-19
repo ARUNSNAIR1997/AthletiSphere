@@ -26,7 +26,7 @@ const handleDelete = (loginId)=>{
             method:"DELETE"
         }).then((res)=>res.json()).then((result)=>{
             console.log(result);
-            
+            setView((prev) => prev.filter((item) => item._id !== loginId));
         })
     }
 }
@@ -67,14 +67,14 @@ const handleDelete = (loginId)=>{
           <tbody>
             {getView.map((item, index) => (
               <tr key={index}>
-                <td>{item.regId?.Turf_Name}</td>
-                <td>{item.regId?.Phone}</td>
-                <td>{item.regId?.Other_Number}</td>
-                <td>{item.regId?.Address}</td>
-                <td>{item.regId?.District}</td>
-                <td>{item.regId?.State}</td>
-                <td>{item.regId?.Country}</td>
-                <td>{item.regId?.Pincode}</td>
+                <td>{item.Turf_Name}</td>
+                <td>{item.Phone}</td>
+                <td>{item.Other_Number}</td>
+                <td>{item.Address}</td>
+                <td>{item.District}</td>
+                <td>{item.State}</td>
+                <td>{item.Country}</td>
+                <td>{item.Pincode}</td>
                 <td>{item.Email}</td>
                 <td>{item.Password}</td>
                 <td>

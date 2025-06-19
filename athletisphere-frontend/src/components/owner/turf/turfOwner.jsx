@@ -53,11 +53,13 @@ const handleSubmit = (e)=>{
   formData.append("sports",selectedSport)
   formData.append("price",getPrice)
   formData.append("owner",getOwner._id)
+formData.append("turf_name", getOwner?.Turf_Name || getOwner?.regId?.Turf_Name || "Default Name");
+
+
 
 selectedVenues.forEach(id => formData.append("venues[]", id));
 selectedAmenities.forEach(id => formData.append("amenities[]", id));
 getImages.forEach(file => formData.append("images", file));
-
 
 
   fetch("http://localhost:8000/sports/turf",{
@@ -65,7 +67,7 @@ getImages.forEach(file => formData.append("images", file));
     body:formData
   }).then((res)=>res.json()).then((result)=>{
     console.log("inserted",result);
-    navigate("/turfview")
+    navigate("/")
   })
 }
 

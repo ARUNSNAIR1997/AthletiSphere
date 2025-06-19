@@ -38,14 +38,14 @@ useEffect(() => {
       .then((result) => {
         console.log("data output", result);
 
-        setName(result.regId?.Turf_Name || "");
-        setPhone(result.regId?.Phone || "");
-        setNextPhone(result.regId?.Other_Number || "");
-        setAddress(result.regId?.Address || "");
-        setDistrict(result.regId?.District || "");
-        setState(result.regId?.State || "");
-        setCountry(result.regId?.Country || "");
-        setPin(result.regId?.Pincode || "");
+        setName(result.Turf_Name || "");
+        setPhone(result.Phone || "");
+        setNextPhone(result.Other_Number || "");
+        setAddress(result.Address || "");
+        setDistrict(result.District || "");
+        setState(result.State || "");
+        setCountry(result.Country || "");
+        setPin(result.Pincode || "");
         setEmail(result.Email || "");
         setPassword(result.Password || "");
       });

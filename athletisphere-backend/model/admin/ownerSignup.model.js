@@ -32,14 +32,7 @@ const signupSchema = mongoose.Schema({
     Pincode:{
         type:String,
         required:true
-    }
-})
-
-const signupModel = mongoose.model("owner_signup",signupSchema)
-
-
-
-const loginSchema = mongoose.Schema({
+    },
     Email:{
         type:String,
         required:true
@@ -52,21 +45,15 @@ const loginSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    regId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "owner_signup",
-        required: true
-    },
     createdAt:{
         type:Date,
         default:Date.now()
     }
 })
 
-const loginModel = mongoose.model("owner_login",loginSchema)
+const signupModel = mongoose.model("owner_signup",signupSchema)
 
 
-
-module.exports={signupModel, loginModel}
+module.exports=signupModel
 
 

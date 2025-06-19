@@ -28,6 +28,8 @@ import UserRegister from './components/user/login/userRegister'
 import UserHome from './components/user/userHome'
 import UserNav from './components/partials/usernav'
 import OwnerNav from './components/partials/ownernav'
+import AllTurf from './components/user/homeComponents/allturf'
+import SingleTurf from './components/user/homeComponents/singleturf'
 
 function App() {
 
@@ -98,6 +100,8 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
     ) : getUser.role === "user" ? (
       <Routes>
       <Route path='/' element={<UserHome/>}/>
+      <Route path='/allturf' element={<AllTurf/>}/>
+      <Route path='/singleturf/:turfId' element={<SingleTurf/>}/>
       </Routes>
       ) : ''
     }

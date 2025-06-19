@@ -29,6 +29,10 @@ const turfSchema = mongoose.Schema({
   },
   owner: {
     type: String,
+  },
+  turf_name:{
+    type: String,
+    required: true
   }
 });
 
