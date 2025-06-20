@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 
 function SingleTurf(){
+
+const navigate = useNavigate()
 
 const { turfId } = useParams()
 
@@ -97,7 +99,7 @@ if (!turf || !turf.images || turf.images.length === 0) {
 </div>
 </div>
 <div className="col text-end">
-<button className="book">Book a game</button>
+<button className="book" onClick={() => navigate(`/booking/${turfId}`)}>Book a game</button>
 </div>
 </div>
 

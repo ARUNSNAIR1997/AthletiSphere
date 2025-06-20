@@ -30,6 +30,8 @@ import UserNav from './components/partials/usernav'
 import OwnerNav from './components/partials/ownernav'
 import AllTurf from './components/user/homeComponents/allturf'
 import SingleTurf from './components/user/homeComponents/singleturf'
+import Booking from './components/user/homeComponents/booking'
+import BookingStatus from './components/user/homeComponents/bookingStatus'
 
 function App() {
 
@@ -102,6 +104,8 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
       <Route path='/' element={<UserHome/>}/>
       <Route path='/allturf' element={<AllTurf/>}/>
       <Route path='/singleturf/:turfId' element={<SingleTurf/>}/>
+      <Route path='/booking/:turfId' element={<Booking/>}/>
+      <Route path='/bookingstatus' element={<BookingStatus/>}/>
       </Routes>
       ) : ''
     }

@@ -216,3 +216,10 @@ a{
   color: var(--bodytwo-color);
   background-color: color-mix(in srgb, var(--navbackground-color), transparent 30%);
 }
+
+
+/* booking status */
+/* .total{
+  display: flex;
+  justify-content: center;
+} */

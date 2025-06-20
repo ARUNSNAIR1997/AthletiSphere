@@ -62,9 +62,11 @@ router.post("/turfupdate",turfController.turfUpdate)
 
 //user
 var userController = require("../controller/user/userSignup.Controller")
+var bookingController = require("../controller/user/booking.controller")
 
 router.post("/userregister",userController.userInsert)
 router.post("/userlogin",userController.userLogin)
-
+router.post("/booking",bookingController.bookingInsert)
+router.get("/bookingview",bookingController.bookingView)
 
 module.exports=router
