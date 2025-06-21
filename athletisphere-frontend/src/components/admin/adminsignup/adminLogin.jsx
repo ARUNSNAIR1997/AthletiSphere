@@ -50,12 +50,12 @@ const handleForm = ()=>{
               <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
               <p class="text-black-50 mb-5">Please enter your login and password!</p>
 
-              <div data-mdb-input-init class="form-outline form-black mb-4">
+              <div data-mdb-input-init class="form-black mb-4">
                 <input type="email" id="typeEmailX" class="form-control form-control-lg" value={getEmail} onChange={(e)=>setEmail(e.target.value)}/>
                 <label class="form-label" for="typeEmailX">Email</label>
               </div>
 
-              <div data-mdb-input-init class="form-outline form-black mb-4">
+              <div data-mdb-input-init class="form-black mb-4">
                 <input type="password" id="typePasswordX" class="form-control form-control-lg" value={getPassword} onChange={(e)=>setPassword(e.target.value)}/>
                 <label class="form-label" for="typePasswordX">Password</label>
               </div>

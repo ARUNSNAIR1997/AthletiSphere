@@ -5,9 +5,10 @@ import OwnerNav from "../../partials/ownernav";
 function TurfView(){
 
 const [getView, setView] = useState([])
+const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
 
 useEffect(()=>{
-    fetch("http://localhost:8000/sports/turfview").then((res)=>res.json()).then((result)=>{
+    fetch(`http://localhost:8000/sports/turfview?owner=${getOwner._id}`).then((res)=>res.json()).then((result)=>{
         console.log(result);
         setView(result)
     })

@@ -33,8 +33,24 @@ exports.turfInsert = async(req,res)=>{
 
 
 
-//view
+//owner view
 exports.turfView = async(req,res)=>{
+    try{
+      const ownerId = req.query.owner;
+        let view = await turfModel.find({owner: ownerId})
+        .populate("sports", "sports_name")
+        .populate("venues", "venue_name")
+        .populate("amenities", "amenitie_name")
+        res.json(view)
+    }catch(err){
+        console.error(err);
+        
+    }
+}
+
+
+//user view
+exports.turfUserView = async(req,res)=>{
     try{
         let view = await turfModel.find()
         .populate("sports", "sports_name")
@@ -46,6 +62,7 @@ exports.turfView = async(req,res)=>{
         
     }
 }
+
 
 
 //delete

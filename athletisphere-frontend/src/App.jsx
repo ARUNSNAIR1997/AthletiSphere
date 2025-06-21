@@ -32,6 +32,7 @@ import AllTurf from './components/user/homeComponents/allturf'
 import SingleTurf from './components/user/homeComponents/singleturf'
 import Booking from './components/user/homeComponents/booking'
 import BookingStatus from './components/user/homeComponents/bookingStatus'
+import UserBookStatus from './components/owner/turf/userBookStatus'
 
 function App() {
 
@@ -85,6 +86,7 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
       <Route path='/' element={<TurfView/>}/>
       <Route path='/turfupdate' element={<TurfUpdate/>}/>
       <Route path='/ownernav' element={<OwnerNav/>}/>
+      <Route path='/bookstatus' element={<UserBookStatus/>}/>
       </Routes>
       ) : ''
     }

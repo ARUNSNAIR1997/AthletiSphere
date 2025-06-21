@@ -10,6 +10,10 @@ const bookingSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    sports:{
+        type: String,
+        required: true
+    },
     date:{
         type: String,
         required: true
@@ -40,6 +44,9 @@ const bookingSchema = mongoose.Schema({
     user:{
         type: String
     },
+    // owner:{
+    //     type: String
+    // },
     createdAt:{
         type:Date,
         default:Date.now()

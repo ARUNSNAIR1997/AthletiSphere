@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from "react";
-import UserNav from "../../partials/usernav";
 
-
-
-function BookingStatus(){
+function UserBookStatus(){
 
 const [getView, setView] = useState([])
-const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
+const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
 
 useEffect(()=>{
-    fetch(`http://localhost:8000/sports/bookingview?user=${getUser._id}`).then((res)=>res.json()).then((result)=>{
+    fetch(`http://localhost:8000/sports/bookstatus?turf=${getOwner.Turf_Name}`).then((res)=>res.json()).then((result)=>{
         console.log(result);
         setView(result)
     })
 },[])
 
 
-
     return(
         <>
-
-<UserNav/>
-
         <div className="container body-cont">
         <div className="row row-cols-1 row-cols-md-3 g-4">
         {getView.map((item, index) => (
@@ -31,20 +24,15 @@ useEffect(()=>{
             {/* <img src={`http://localhost:8000/img/${img?.[0]}`} width={100} height={300} className="card-img-top" alt="..." style={{objectFit: "cover"}}/> */}
     <h1 className="text-center">Turf name : {item.turf}</h1>
       <div className="card-body">
-            <div class="col">Customer name: {item.name}</div>
-            <div class="col">Customer email: {item.email}</div>
-            <div className="col">Phone: {item.phone}</div>
+        <div class="card-title">Customer name: {item.name}</div>
+        <div class="card-title">Customer email: {item.email}</div>
         <div className="row row-cols-1 row-cols-md-2">
-
-
-          <div className="col">Sports: {item.sports}</div>
           <div className="col">Date: {item.date}</div>
           <div className="col">Time: {item.time}</div>
           <div className="col">Duration: {item.duration}</div>
           <div className="col">No.Person: {item.persons}</div>
-          <div className="col">Total amount: {item.total_amount}</div>
         </div>
-        
+        <div className="text-center pt-2">Total amount: {item.total_amount}</div>
       </div>
     </div>
   </div>
@@ -57,4 +45,4 @@ useEffect(()=>{
 }
 
 
-export default BookingStatus;
+export default UserBookStatus

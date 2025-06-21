@@ -70,13 +70,13 @@ const handleForm = ()=>{
 
                 <div class="row">
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getFirst} onChange={(e)=>setFirst(e.target.value)}/>
                       <label class="form-label" for="form3Example1m">First name</label>
                     </div>
                   </div>
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getLast} onChange={(e)=>setLast(e.target.value)}/>
                       <label class="form-label" for="form3Example1n">Last name</label>
                     </div>
@@ -85,20 +85,20 @@ const handleForm = ()=>{
 
                 <div class="row">
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getPhone1} onChange={(e)=>setPhone1(e.target.value)}/>
                       <label class="form-label" for="form3Example1m1">Phone number1</label>
                     </div>
                   </div>
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getPhone2} onChange={(e)=>setPhone2(e.target.value)}/>
                       <label class="form-label" for="form3Example1n1">Phone number2</label>
                     </div>
                   </div>
                 </div>
 
-                <div data-mdb-input-init class="form-outline mb-4">
+                <div data-mdb-input-init class="mb-4">
                   <input type="text" class="form-control form-control-lg" value={getAddress} onChange={(e)=>setAddress(e.target.value)}/>
                   <label class="form-label" for="form3Example8">Address</label>
                 </div>
@@ -129,13 +129,13 @@ const handleForm = ()=>{
 
                 <div class="row">
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getState} onChange={(e)=>setState(e.target.value)}/>
                       <label class="form-label" for="form3Example1m">State</label>
                     </div>
                   </div>
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getDistrict} onChange={(e)=>setDistrict(e.target.value)}/>
                       <label class="form-label" for="form3Example1n">District</label>
                     </div>
@@ -144,13 +144,13 @@ const handleForm = ()=>{
 
                 <div class="row">
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getCountry} onChange={(e)=>setCountry(e.target.value)}/>
                       <label class="form-label" for="form3Example1m">Country</label>
                     </div>
                   </div>
                   <div class="col-md-6 mb-4">
-                    <div data-mdb-input-init class="form-outline mb-4">
+                    <div data-mdb-input-init class="mb-4">
                     <input type="text" class="form-control form-control-lg" value={getPin} onChange={(e)=>setPin(e.target.value)}/>
                     <label class="form-label" for="form3Example90">Pincode</label>
                     </div>
@@ -162,12 +162,12 @@ const handleForm = ()=>{
                   <label class="form-label" for="form3Example9">DOB</label>
                 </div>
 
-                <div data-mdb-input-init class="form-outline mb-4">
+                <div data-mdb-input-init class="mb-4">
                   <input type="email" class="form-control form-control-lg" value={getEmail} onChange={(e)=>setEmail(e.target.value)}/>
                   <label class="form-label" for="form3Example97">Email ID</label>
                 </div>
 
-                <div data-mdb-input-init class="form-outline mb-4">
+                <div data-mdb-input-init class="mb-4">
                   <input type="password" class="form-control form-control-lg" value={getPassword} onChange={(e)=>setPassword(e.target.value)}/>
                   <label class="form-label" for="form3Example99">Password</label>
                 </div>

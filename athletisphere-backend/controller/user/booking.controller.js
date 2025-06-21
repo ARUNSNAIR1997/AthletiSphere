@@ -10,9 +10,25 @@ exports.bookingInsert = async(req,res)=>{
     }
 }
 
+//user status view
 exports.bookingView = async(req,res)=>{
     try{
-        let view = await bookingModel.find()
+        const userId = req.query.user;
+        let view = await bookingModel.find({user: userId})
+        res.json(view)
+    }catch(err){
+        console.error(err);
+        
+    }
+}
+
+
+
+//owner status view
+exports.ownerBookingView = async(req,res)=>{
+    try{
+        const turf_name = req.query.turf;
+        let view = await bookingModel.find({turf: turf_name})
         res.json(view)
     }catch(err){
         console.error(err);

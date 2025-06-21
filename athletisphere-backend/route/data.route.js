@@ -58,6 +58,7 @@ router.get("/turfview",turfController.turfView)
 router.delete("/turfdelete/:turfId",turfController.turfDelete)
 router.get("/turfedit/:turfId",turfController.turfEdit)
 router.post("/turfupdate",turfController.turfUpdate)
+router.get("/turfuserview",turfController.turfUserView)
 
 
 //user
@@ -68,5 +69,6 @@ router.post("/userregister",userController.userInsert)
 router.post("/userlogin",userController.userLogin)
 router.post("/booking",bookingController.bookingInsert)
 router.get("/bookingview",bookingController.bookingView)
+router.get("/bookstatus",bookingController.ownerBookingView)
 
 module.exports=router

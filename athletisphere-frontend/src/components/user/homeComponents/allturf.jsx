@@ -9,7 +9,7 @@ const [getView, setView] = useState([])
 const navigate = useNavigate()
 
 useEffect(()=>{
-    fetch("http://localhost:8000/sports/turfview").then((res)=>res.json()).then((result)=>{
+    fetch("http://localhost:8000/sports/turfuserview").then((res)=>res.json()).then((result)=>{
         console.log(result);
         setView(result)
     })

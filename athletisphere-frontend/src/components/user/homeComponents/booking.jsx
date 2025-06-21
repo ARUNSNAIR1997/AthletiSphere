@@ -17,6 +17,7 @@ const [getPhone, setPhone] = useState("")
 const [getPerson, setPerson] = useState("")
 const [successMsg, setSuccessMsg] = useState("");
 const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
+// const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
 
 useEffect(()=>{
     fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
@@ -33,7 +34,8 @@ const handleForm = (e)=>{
     e.preventDefault()
     let params = {
         turf:turf.turf_name,
-        name:getName,
+        name:getUser.firstname,
+        sports:turf.sports?.sports_name,
         date:getDate,
         time:getTime,
         duration:getDuration,
@@ -42,6 +44,7 @@ const handleForm = (e)=>{
         persons:getPerson,
         total_amount:totalAmount,
         user:getUser._id
+        // owner:getOwner._id
     }
     fetch("http://localhost:8000/sports/booking",{
         method:"post",
@@ -91,9 +94,20 @@ const totalAmount = pricePerPerson * numberOfPersons
             </div>
 
             {/* <!-- Text input --> */}
+
+            <div className="row mb-4">
+              <div className="col">
             <div data-mdb-input-init class="mb-4">
-              <input type="text" id="form6Example3" class="form-control" value={getName} onChange={(e)=>setName(e.target.value)} />
-              <label class="form-label" for="form6Example3">Full name</label>
+              {/* <input type="text" id="form6Example3" class="form-control" value={getName} onChange={(e)=>setName(e.target.value)} /> */}
+              <label class="form-label" for="form6Example3">Name: {getUser.firstname}</label>
+            </div>
+              </div>
+              <div className="col">
+              <div data-mdb-input-init class="mb-4">
+              {/* <input type="text" id="form6Example3" class="form-control" value={getName} onChange={(e)=>setName(e.target.value)} /> */}
+              <label class="form-label" for="form6Example3">Sports: {turf.sports?.sports_name}</label>
+            </div>
+              </div>
             </div>
 
             {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}

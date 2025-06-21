@@ -47,14 +47,14 @@ const handleForm = (e)=>{
 
           <form onSubmit={handleForm}>
 
-            <h3 className="fw-normal mb-3 pb-3">Log in</h3>
+            <h3 className="fw-normal mb-3 pb-3" style={{paddingTop: "100px"}}>Log in</h3>
 
-            <div data-mdb-input-init class="form-outline mb-4">
+            <div data-mdb-input-init class="mb-4">
               <input type="email"  className="form-control form-control-lg" value={getEmail} onChange={(e)=>setEmail(e.target.value)}/>
               <label className="form-label" for="form2Example18">Email address</label>
             </div>
 
-            <div data-mdb-input-init className="form-outline mb-4">
+            <div data-mdb-input-init className="mb-4">
               <input type="password"  className="form-control form-control-lg" value={getPassword} onChange={(e)=>setPassword(e.target.value)}/>
               <label className="form-label" for="form2Example28">Password</label>
             </div>

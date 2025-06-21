@@ -66,7 +66,7 @@ const handleForm = (e)=>{
                   </div>
 
                   <a className="small text-muted" href="#!">Forgot password?</a>
-                  <p className="mb-5 pb-lg-2">Don't have an account? <a href="#!"
+                  <p className="mb-5 pb-lg-2">Don't have an account? <a href="/userregister"
                       >Register here</a></p>
                   <a href="#!" className="small text-muted">Terms of use.</a>
                   <a href="#!" className="small text-muted">Privacy policy</a>
