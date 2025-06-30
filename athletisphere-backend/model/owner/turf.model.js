@@ -5,7 +5,7 @@ const turfSchema = mongoose.Schema({
   sports: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "sport",
-    required: true
+    // required: true
   },
   venues: {
     type: [{
@@ -29,6 +29,9 @@ const turfSchema = mongoose.Schema({
   },
   owner: {
     type: String,
+  },
+  location:{
+    type: String
   },
   turf_name:{
     type: String,

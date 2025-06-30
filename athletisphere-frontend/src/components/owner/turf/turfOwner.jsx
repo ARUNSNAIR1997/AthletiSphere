@@ -53,6 +53,7 @@ const handleSubmit = (e)=>{
   formData.append("sports",selectedSport)
   formData.append("price",getPrice)
   formData.append("owner",getOwner._id)
+  formData.append("location",getOwner.District)
 formData.append("turf_name", getOwner?.Turf_Name || getOwner?.regId?.Turf_Name || "Default Name");
 
 

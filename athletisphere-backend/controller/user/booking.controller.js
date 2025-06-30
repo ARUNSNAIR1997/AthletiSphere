@@ -35,3 +35,18 @@ exports.ownerBookingView = async(req,res)=>{
         
     }
 }
+
+
+
+//owner status delete
+exports.ownerBookDelete = async(req,res)=>{
+  try{
+    const bookId = req.params.bookId;
+    await bookingModel.findByIdAndDelete(bookId)
+    res.json("deleted")
+  }catch(err){
+    console.error(err);
+  }
+}
+
+

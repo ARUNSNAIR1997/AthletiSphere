@@ -17,6 +17,7 @@ exports.turfInsert = async(req,res)=>{
       sports: req.body.sports,
       price: req.body.price,
       owner: req.body.owner,
+      location: req.body.location,
       venues: req.body["venues[]"], // expected as array
       amenities: req.body["amenities[]"], // expected as array
       images: imageNames,
@@ -52,7 +53,8 @@ exports.turfView = async(req,res)=>{
 //user view
 exports.turfUserView = async(req,res)=>{
     try{
-        let view = await turfModel.find()
+      const sportsId = req.query.sports;
+        let view = await turfModel.find({sports: sportsId})
         .populate("sports", "sports_name")
         .populate("venues", "venue_name")
         .populate("amenities", "amenitie_name")
@@ -78,11 +80,27 @@ exports.turfDelete = async(req,res)=>{
 
 
 
+//owner image delete
+exports.turfImageDelete = async(req,res)=>{
+  try{
+    const indexId = req.params.index;
+    await turfModel.findByIdAndDelete(indexId)
+    res.json("deleted")
+  }catch(err){
+    console.error(err);
+  }
+}
+
+
+
 //edit
 exports.turfEdit = async(req,res)=>{
   try{
     const turfId = req.params.turfId;
-    const edit = await turfModel.findById(turfId).populate("sports", "sports_name")
+    const edit = await turfModel.findById(turfId)
+    .populate("sports", "sports_name")
+    .populate("venues")
+    .populate("amenities")
     res.json(edit)
   }catch(err){
     console.error(err);

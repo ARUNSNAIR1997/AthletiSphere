@@ -14,8 +14,9 @@ const handleLogout = ()=>{
     return(
         <>
         <header className={"display-flex"}>
-            <div className="logo">Logo</div>
+            <div className="logo">Athletisphere</div>
             <ul className="nav display-flex">
+                <li><a href="/bookstatus">Booking Status</a></li>
                 <li><a href="/">Home</a></li>
                 <li><a href="" onClick={handleLogout}>Logout</a></li>
             </ul>

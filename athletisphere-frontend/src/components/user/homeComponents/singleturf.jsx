@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import UserCricket from "../score/userCricket";
+import UserFootball from "../score/userFootball";
+import UserNav from "../../partials/usernav";
+import Footer from "../../partials/footer";
 
 
 
@@ -10,6 +14,7 @@ const navigate = useNavigate()
 const { turfId } = useParams()
 
 const [turf, setTurf] = useState(null)
+const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
 
 useEffect(()=>{
     fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
@@ -18,19 +23,52 @@ useEffect(()=>{
     })
 },[turfId])
 
-if (!turf || !turf.images || turf.images.length === 0) {
-    return <div>Loading...</div>;
+
+
+
+
+const [getView, setView] = useState([])
+const [selectedSport, setSelectedSport] = useState(null)
+    
+    useEffect(()=>{
+
+      if (!turf) return;
+        fetch("http://localhost:8000/sports/sportsview").then((res)=>res.json()).then((result)=>{
+            console.log("viewed",result);
+            setView(result) 
+
+  
+        const match = result.find((sport) => sport._id === turf?.sports._id);
+        console.log("match",match);
+        
+        setSelectedSport(match);
+        })
+    },[turf])
+
+
+  if (!selectedSport) {
+    return <p className="text-center mt-5">Loading or invalid sport...</p>;
   }
+
+
+
+
+
 
     return(
         <>
+<UserNav/>
+
+{selectedSport?.sports_name === "Football" && <UserFootball />}
+{selectedSport?.sports_name === "Cricket" && <UserCricket />}
+
 <div className="container body-cont">
 
 <div
-  id="carouselBasicExample"
+  className="carousel"
   data-mdb-carousel-init class="carousel slide carousel-fade"
   data-mdb-ride="carousel"
-  data-mdb-interval="3000" // <-- Auto-slide every 3 seconds
+  data-mdb-interval="3000" 
 >
 
   <div class="carousel-indicators">
@@ -49,7 +87,7 @@ if (!turf || !turf.images || turf.images.length === 0) {
 
 
 
-  {/* Carousel images */}
+ 
         <div className="carousel-inner">
           {turf.images.map((img, index) => (
             <div
@@ -62,9 +100,7 @@ if (!turf || !turf.images || turf.images.length === 0) {
                 alt={`Slide ${index + 1}`}
                 style={{ height: "500px", objectFit: "cover" }}
               />
-              {/* <div className="carousel-caption d-none d-md-block">
-                <h5 style={{color: "black"}}>{turf.turf_name}</h5>
-              </div> */}
+           
             </div>
           ))}
         </div>
@@ -103,7 +139,40 @@ if (!turf || !turf.images || turf.images.length === 0) {
 </div>
 </div>
 
+<hr />
+{/* address */}
+<div>
+  <p style={{fontSize: "30px"}}>Address</p>
+  <div className="pb-2"><i class="fa-solid fa-location-dot"></i>&nbsp; {getUser.address}, {getUser.district}, {getUser.state}</div>
+  <div><i class="fa-solid fa-mobile-screen"></i>&nbsp; {getUser.firstnumber}</div>
 </div>
+
+<hr />
+{/* venue */}
+<div>
+  <p style={{fontSize: "30px"}}>Venue Info</p>
+ {turf.venues.map((item, index) => (
+  <div key={index}>
+    <div className="pb-3"><img src={`http://localhost:8000/img/${item.venue_icon}`} width={30} height={30} alt="" /> &nbsp;   {item.venue_name}</div>
+   
+  </div>
+))}
+</div>
+
+<hr />
+{/* amenity */}
+<div>
+  <p style={{fontSize: "30px"}}>Amenities</p>
+  {turf.amenities.map((item, index)=>(
+    <div key={index}>
+      <div className="pb-3"><img src={`http://localhost:8000/img/${item.amenitie_icon}`} width={30} height={30} alt="" /> &nbsp;   {item.amenitie_name}</div>
+      </div>
+  ))}
+</div>
+
+</div>
+
+<Footer/>
         </>
     )
 }

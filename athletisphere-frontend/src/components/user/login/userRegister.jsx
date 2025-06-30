@@ -5,50 +5,91 @@ function UserRegister(){
 
 const navigate = useNavigate()
 
-
+const [getProfile, setProfile] = useState("")
 const [getFirst, setFirst] = useState("")
 const [getLast, setLast] = useState("")
 const [getPhone1, setPhone1] = useState("")
 const [getPhone2, setPhone2] = useState("")
 const [getAddress, setAddress] = useState("")
 const [getGender, setGender] = useState("")
-const [getState, setState] = useState("")
-const [getDistrict, setDistrict] = useState("")
-const [getCountry, setCountry] = useState("")
-const [getPin, setPin] = useState("")
+// const [getState, setState] = useState("")
+// const [getDistrict, setDistrict] = useState("")
+// const [getCountry, setCountry] = useState("")
+// const [getPin, setPin] = useState("")
 const [getDob, setDob] = useState("")
 const [getEmail, setEmail] = useState("")
 const [getPassword, setPassword] = useState("")
 
 
+
+
+
 const handleForm = ()=>{
-    const params = {
-        firstname: getFirst,
-        lastname: getLast,
-        firstnumber: getPhone1,
-        secondnumber: getPhone2,
-        address: getAddress,
-        gender: getGender,
-        state: getState,
-        district: getDistrict,
-        country: getCountry,
-        pincode: getPin,
-        dob: getDob,
-        email: getEmail,
-        password: getPassword,
-        role:"user"
-    }
+  let fromData = new FormData()
+  fromData.append("profile",getProfile)
+  fromData.append("firstname",getFirst)
+  fromData.append("lastname",getLast)
+  fromData.append("firstnumber",getPhone1)
+  fromData.append("secondnumber",getPhone2)
+  fromData.append("address",getAddress)
+  fromData.append("gender",getGender)
+  // fromData.append("state",getState)
+  // fromData.append("district",getDistrict)
+  // fromData.append("country",getCountry)
+  // fromData.append("pincode",getPin)
+  fromData.append("location",endlocation)
+  fromData.append("dob",getDob)
+  fromData.append("email",getEmail)
+  fromData.append("password",getPassword)
+  fromData.append("role","user")
+  
     fetch("http://localhost:8000/sports/userregister",{
         method:"post",
-        headers:{
-            Accept:"application/json",
-            "Content-Type":"application/json"
-        },body:JSON.stringify(params)
+        body: fromData
     }).then((res)=>res.json()).then((result)=>{
         console.log("user inserted",result);
         navigate("/userlogin")
     })
 }
+
+
+
+// location
+
+  // const [startlocation, setStartlocation] = useState("");
+  const [endlocation, setEndlocation] = useState("");
+  // const [sourceSuggestions, setSourceSuggestions] = useState([]);
+  const [destinationSuggestions, setDestinationSuggestions] = useState([]);
+  // const [startLatLng, setStartLatLng] = useState({ lat: null, lng: null });
+  const [endLatLng, setEndLatLng] = useState({ lat: null, lng: null });
+
+  const API_KEY = "n4Yzg7yiZdGPqjicI88XfHyRY7SBuMsaProAtSD0";
+
+const fetchSuggestions = async (input, setSuggestions) => {
+    if (!input) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.olamaps.io/places/v1/autocomplete?input=${input}&api_key=${API_KEY}`
+      );
+      const data = await response.json();
+      console.log("Autocomplete data:", JSON.stringify(data));
+
+      if (data?.predictions) {
+        setSuggestions(
+          data.predictions.map((item) => ({
+            description: item.description,
+            id: item.place_id, // Correctly mapped
+          }))
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
 
 
     return(
@@ -67,6 +108,11 @@ const handleForm = ()=>{
             <div class="col-xl-6">
               <div class="card-body p-md-5 text-black">
                 <h3 class="mb-5 text-uppercase">User registration form</h3>
+
+                <div data-mdb-input-init class="mb-4">
+                  <input type="file" class="form-control form-control-lg" id="getProfile" onChange={(e)=>setProfile(e.target.files[0])}/>
+                  <label class="form-label" for="form3Example8">Profile Picture</label>
+                </div>
 
                 <div class="row">
                   <div class="col-md-6 mb-4">
@@ -127,7 +173,7 @@ const handleForm = ()=>{
 
                 </div>
 
-                <div class="row">
+                {/* <div class="row">
                   <div class="col-md-6 mb-4">
                     <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getState} onChange={(e)=>setState(e.target.value)}/>
@@ -140,10 +186,10 @@ const handleForm = ()=>{
                       <label class="form-label" for="form3Example1n">District</label>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div class="row">
-                  <div class="col-md-6 mb-4">
+                  {/* <div class="col-md-6 mb-4">
                     <div data-mdb-input-init class="">
                       <input type="text" class="form-control form-control-lg" value={getCountry} onChange={(e)=>setCountry(e.target.value)}/>
                       <label class="form-label" for="form3Example1m">Country</label>
@@ -154,10 +200,38 @@ const handleForm = ()=>{
                     <input type="text" class="form-control form-control-lg" value={getPin} onChange={(e)=>setPin(e.target.value)}/>
                     <label class="form-label" for="form3Example90">Pincode</label>
                     </div>
+                  </div> */}
+                  {/* Destination Input */}
+                  <div className="mb-3">
+                    <label className="form-label">Destination</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={endlocation}
+                      onChange={(e) => {
+                        setEndlocation(e.target.value);
+                        fetchSuggestions(e.target.value, setDestinationSuggestions);
+                      }}
+                    />
+                    <ul className="list-group">
+                      {destinationSuggestions.map((suggestion, index) => (
+                        <li
+                          key={index}
+                          className="list-group-item list-group-item-action"
+                          onClick={() => {
+                            setEndlocation(suggestion.description);
+                            setDestinationSuggestions([]);
+                            fetchPlaceDetails(suggestion.id, setEndLatLng);
+                          }}
+                        >
+                          {suggestion.description}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                <div data-mdb-input-init class="form-outline mb-4">
+                <div data-mdb-input-init class="mb-4">
                   <input type="date" class="form-control form-control-lg" value={getDob} onChange={(e)=>setDob(e.target.value)}/>
                   <label class="form-label" for="form3Example9">DOB</label>
                 </div>

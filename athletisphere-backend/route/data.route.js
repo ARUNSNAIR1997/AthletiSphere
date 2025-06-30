@@ -59,16 +59,50 @@ router.delete("/turfdelete/:turfId",turfController.turfDelete)
 router.get("/turfedit/:turfId",turfController.turfEdit)
 router.post("/turfupdate",turfController.turfUpdate)
 router.get("/turfuserview",turfController.turfUserView)
+router.delete("turfimagedelete/:index",turfController.turfImageDelete)
 
 
 //user
 var userController = require("../controller/user/userSignup.Controller")
 var bookingController = require("../controller/user/booking.controller")
+var postController = require("../controller/user/post.controller")
+var paymentController = require("../controller/user/payment.controller")
 
 router.post("/userregister",userController.userInsert)
 router.post("/userlogin",userController.userLogin)
 router.post("/booking",bookingController.bookingInsert)
 router.get("/bookingview",bookingController.bookingView)
 router.get("/bookstatus",bookingController.ownerBookingView)
+router.delete("/bookdelete/:bookId",bookingController.ownerBookDelete)
+router.post("/socialpost",postController.postInert)
+router.get("/socialview",postController.postView)
+router.put("/sociallike/:id", postController.likePost);
+router.put("/socialcomment/:id", postController.commentPost);
+router.get("/socialviewcomment/:commentId",postController.postViewComment)
+router.post("/create-order",paymentController.createOrder)
+
+
+
+//test
+var testController = require("../controller/user/test.controller")
+
+router.post("/test",testController.testInsert)
+
+
+//score football
+var footballController = require("../controller/owner/score/football.controller")
+
+router.post("/footballscore",footballController.footballInsert)
+router.get("/footballview/:matchId",footballController.footballView)
+router.post("/footballupdate",footballController.footballUpdate)
+router.get("/footballuser",footballController.userFootballView)
+
+//cricket
+var cricketController = require("../controller/owner/score/cricket.controller")
+
+router.post("/cricketscore",cricketController.cricketInsert)
+router.get("/cricketview/:matchId",cricketController.cricketView)
+router.post("/cricketupdate",cricketController.cricketUpdate)
+router.get("/cricketuser",cricketController.userCricketView)
 
 module.exports=router

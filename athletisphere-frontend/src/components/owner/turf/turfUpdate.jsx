@@ -20,7 +20,7 @@ const [dbImages, setDbImages] = useState([]);
 
 const location = useLocation()
 const turfId = location.state?.id;
-console.log("location",location);
+// console.log("location",location);
 const navigate = useNavigate()
 
 
@@ -51,19 +51,35 @@ useEffect(()=>{
 
 
 
-useEffect(()=>{
-    if(turfId){
-        fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
-            console.log("output",result);
-            setSelectedSport(result.sports)
-            setSelectedVenues(result.venues)
-            setSelectedAmenities(result.amenities)
-            setPrice(result.price)
-            setImages(result.images)
-            setDbImages(result.images); // result.images should be array of filenames
-        })
-    }
-},[])
+// useEffect(()=>{
+//     if(turfId){
+//         fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
+//             console.log("output",result);
+//             setSelectedSport(result.sports)
+//             setSelectedVenues(result.venues)
+//             setSelectedAmenities(result.amenities)
+//             setPrice(result.price)
+//             setImages(result.images)
+//             setDbImages(result.images); // result.images should be array of filenames
+//         })
+//     }
+// },[])
+
+useEffect(() => {
+  if (turfId) {
+    fetch(`http://localhost:8000/sports/turfedit/${turfId}`)
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("output", result);
+        setSelectedSport(result.sports?._id || ""); // extract _id
+        setSelectedVenues(result.venues?.map((v) => v._id) || []); // array of IDs
+        setSelectedAmenities(result.amenities?.map((a) => a._id) || []);
+        setPrice(result.price);
+        setDbImages(result.images || []);
+      });
+  }
+}, []);
+
 
 
 const handleForm = (e)=>{
@@ -86,10 +102,22 @@ const handleForm = (e)=>{
     body:formdata
   }).then((res)=>res.json()).then((result)=>{
     console.log(result);
-    navigate("/turfview")
+    navigate("/")
   })
 }
 
+
+// delete
+const handleDelete = (index)=>{
+  if(window.confirm("Are you sure?")){
+    fetch(`http://localhost:8000/sports/turfimagedelete/${index}`,{
+      method:"DELETE"
+    }).then((res)=>res.json()).then((result)=>{
+      console.log("deleted successfully",result);
+      // setView((prev) => prev.filter((item) => item._id !== turfId));
+    })
+  }
+}
 
 
     
@@ -109,13 +137,27 @@ const handleForm = (e)=>{
               {/* Sport Type */}
               <div className="col-md-6 mb-3">
                 <label htmlFor="sportType" className="form-label">Sport Type</label>
-
-                <select className="form-select" required onChange={(e) => setSports(e.target.value)} value={selectedSport}>
+                {/* <input type="text" value={selectedSport.sports?.sports_name}/> */}
+                {/* <select className="form-select" required onChange={(e) => setSports(e.target.value)} value={selectedSport}>
                 <option value="">Select sport</option>
                 {getSports.map((item) => (
                 <option key={item._id} value={item._id}>{item.sports_name}</option>
                 ))}
-                </select>
+                </select> */}
+                <select
+  className="form-select"
+  required
+  onChange={(e) => setSelectedSport(e.target.value)}
+  value={selectedSport}
+>
+  <option value="">Select sport</option>
+  {getSports.map((item) => (
+    <option key={item._id} value={item._id}>
+      {item.sports_name}
+    </option>
+  ))}
+</select>
+
 
 
               </div>
@@ -150,7 +192,7 @@ const handleForm = (e)=>{
                 height={100}
                 alt="DB"
                 style={{ margin: "5px" }}
-                />
+                />&nbsp;<i class="fa-solid fa-trash-can" onClick={() => handleDelete(index)} style={{cursor: "pointer"}}></i>
                 </div>
                 ))}
               </div>

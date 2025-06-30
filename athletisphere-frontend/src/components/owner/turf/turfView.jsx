@@ -1,9 +1,10 @@
 import React,{useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OwnerNav from "../../partials/ownernav";
 
 function TurfView(){
 
+const navigate = useNavigate()
 const [getView, setView] = useState([])
 const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
 
@@ -34,7 +35,7 @@ const handleDelete = (turfId)=>{
 
         <div className="container body-cont">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="text-primary fw-bold">Turf</h2>
+        <h2 className="text-primary fw-bold">{getOwner.Turf_Name} Turf</h2>
         <Link to="/turf" className="btn btn-outline-primary">
           + Add
         </Link>
@@ -75,7 +76,7 @@ const handleDelete = (turfId)=>{
                 <td>
                     {item.images.map((m, n)=>(
                         <span key={n}>
-                            <img src={`http://localhost:8000/img/${m}`} width={100} height={100} alt="" /><button>Delete</button>
+                            <img src={`http://localhost:8000/img/${m}`} width={100} height={100} alt="" />
                         </span>
                     
                     ))}
@@ -89,6 +90,20 @@ const handleDelete = (turfId)=>{
                     >
                       Edit
                     </Link>
+                    
+                    {/* <Link
+                      className="btn btn-sm btn-success"
+                      to="/score"
+                      state={{ id: item.sports?._id }}
+                    >
+                      Score
+                    </Link> */}
+                    <button
+                      className="btn btn-sm btn-success"
+                      onClick={() => navigate(`/score/${item.sports?._id}`)}
+                    >
+                      Score
+                    </button>
                     <button
                       className="btn btn-sm btn-danger"
                       onClick={() => handleDelete(item._id)}

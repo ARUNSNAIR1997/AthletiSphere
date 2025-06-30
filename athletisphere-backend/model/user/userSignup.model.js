@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 
 const userSignupSchema = mongoose.Schema({
+    profile:{
+        type: String
+    },
     firstname:{
         type: String,
         required: true
@@ -24,22 +27,26 @@ const userSignupSchema = mongoose.Schema({
     gender:{
         type: String
     },
-    state:{
+    // state:{
+    //     type: String,
+    //     required: true
+    // },
+    // district:{
+    //     type: String,
+    //     required: true
+    // },
+    // country:{
+    //     type: String,
+    //     required: true
+    // },
+    location:{
         type: String,
         required: true
     },
-    district:{
-        type: String,
-        required: true
-    },
-    country:{
-        type: String,
-        required: true
-    },
-    pincode:{
-        type: String,
-        required: true
-    },
+    // pincode:{
+    //     type: String,
+    //     required: true
+    // },
     dob:{
         type: String,
         required: true

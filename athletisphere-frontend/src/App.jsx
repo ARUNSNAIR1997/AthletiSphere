@@ -33,6 +33,19 @@ import SingleTurf from './components/user/homeComponents/singleturf'
 import Booking from './components/user/homeComponents/booking'
 import BookingStatus from './components/user/homeComponents/bookingStatus'
 import UserBookStatus from './components/owner/turf/userBookStatus'
+import SocialMedia from './components/user/homeComponents/socialMedia'
+import SocialPost from './components/user/homeComponents/socialPost'
+import SocialComment from './components/user/homeComponents/socialComment'
+import LocationSearch from './components/user/test'
+import Order from './components/user/test'
+import FootballScore from './components/owner/score/footballScore'
+import FootballScoreView from './components/owner/score/footballScoreView'
+import ScoreHome from './components/owner/score/scoreHome'
+import CricketScore from './components/owner/score/cricket/cricket'
+import CricketView from './components/owner/score/cricket/cricketview'
+import UserFootball from './components/user/score/userFootball'
+import UserCricket from './components/user/score/userCricket'
+import Footer from './components/partials/footer'
 
 function App() {
 
@@ -87,6 +100,11 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
       <Route path='/turfupdate' element={<TurfUpdate/>}/>
       <Route path='/ownernav' element={<OwnerNav/>}/>
       <Route path='/bookstatus' element={<UserBookStatus/>}/>
+      <Route path='/footballscore/:sportsId' element={<FootballScore/>}/>
+      <Route path='/footballview/:matchId' element={<FootballScoreView/>}/>
+      <Route path='/score/:sportsId' element={<ScoreHome/>}/>
+      <Route path='/cricketscore/:sportsId' element={<CricketScore/>}/>
+      <Route path='/cricketview/:matchId' element={<CricketView/>}/>
       </Routes>
       ) : ''
     }
@@ -104,10 +122,17 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
     ) : getUser.role === "user" ? (
       <Routes>
       <Route path='/' element={<UserHome/>}/>
-      <Route path='/allturf' element={<AllTurf/>}/>
+      <Route path='/allturf/:sportsId' element={<AllTurf/>}/>
       <Route path='/singleturf/:turfId' element={<SingleTurf/>}/>
       <Route path='/booking/:turfId' element={<Booking/>}/>
       <Route path='/bookingstatus' element={<BookingStatus/>}/>
+      <Route path='/social' element={<SocialMedia/>}/>
+      <Route path='/post' element={<SocialPost/>}/>
+      <Route path='/comment/:commentId' element={<SocialComment/>}/>
+      <Route path='/test' element={<Order/>}/>
+      <Route path='/userfootball/:turfId' element={<UserFootball/>}/>
+      <Route path='/usercricket/:turfId' element={<UserCricket/>}/>
+      <Route path='/footer' element={<Footer/>}/>
       </Routes>
       ) : ''
     }

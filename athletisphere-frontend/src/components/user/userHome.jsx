@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import UserNav from "../partials/usernav";
 import { useNavigate } from "react-router-dom";
-import AllTurf from "./homeComponents/allturf";
+import SocialMedia from "./homeComponents/socialMedia";
+import Footer from "../partials/footer";
 
 
 function UserHome(){
@@ -10,6 +11,7 @@ const navigate = useNavigate()
 const scrollRef = useRef(null);
 
 const [getSports, setSports] = useState([])
+const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
 
 //sports
 useEffect(()=>{
@@ -37,8 +39,12 @@ useEffect(()=>{
 
 
 
-
 <div className="container body-cont">
+
+<div className="username mb-3">
+  {getUser.firstname}
+</div>
+
         <div className="d-flex justify-content-between align-items-center">
           <h4 className="mb-3">All Categories</h4>
           <div>
@@ -59,7 +65,7 @@ useEffect(()=>{
           {getSports.map((item) => (
             <div
               key={item._id}
-              onClick={() => navigate(`/allcategory/${item._id}`)}
+              onClick={() => navigate(`/allturf/${item._id}`)}
               style={{
                 minWidth: "200px",
                 cursor: "pointer",
@@ -83,8 +89,10 @@ useEffect(()=>{
         </div>
       </div>
         
-<AllTurf/>
 
+<SocialMedia/>
+
+<Footer/>
         </>
     )
 }

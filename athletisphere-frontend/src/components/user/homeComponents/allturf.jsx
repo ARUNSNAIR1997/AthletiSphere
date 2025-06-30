@@ -1,25 +1,50 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import UserNav from "../../partials/usernav";
+import Footer from "../../partials/footer";
 
 
 function AllTurf(){
 
-
+const { sportsId } = useParams()
 const [getView, setView] = useState([])
 const navigate = useNavigate()
+const [searchTerm, setSearchTerm] = useState("");
 
 useEffect(()=>{
-    fetch("http://localhost:8000/sports/turfuserview").then((res)=>res.json()).then((result)=>{
+    fetch(`http://localhost:8000/sports/turfuserview?sports=${sportsId}&location=${searchTerm}`).then((res)=>res.json()).then((result)=>{
         console.log(result);
         setView(result)
     })
-},[])
+},[sportsId])
+
+
+const filteredTurfs = getView.filter((item) =>
+  item.location?.toLowerCase().includes(searchTerm.toLowerCase())
+  // item.district?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  // item.state?.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
     return(
         <>
+
+<UserNav/>
+
         <div className="container body-cont">
+          <div className="pb-4">
+            <input
+  type="search"
+  placeholder="Enter your location"
+  className="form-control"
+  style={{ width: "500px" }}
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+/>
+            {/* <input type="search" name="" id="" placeholder="enter your location" className="form-control" style={{width: "500px"}}/> */}
+          </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {getView.map((item)=>(
+            {filteredTurfs.map((item)=>(
   <div className="allturf col" key={item._id}>
     <div class="card">
         {/* {item.images.map((m, n)=>(
@@ -37,6 +62,9 @@ useEffect(()=>{
 
 </div>
 </div>
+
+
+<Footer/>
         </>
     )
 }

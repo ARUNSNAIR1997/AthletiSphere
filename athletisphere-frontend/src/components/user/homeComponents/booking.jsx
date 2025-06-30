@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import UserNav from "../../partials/usernav";
 
 
 function Booking(){
@@ -17,53 +18,200 @@ const [getPhone, setPhone] = useState("")
 const [getPerson, setPerson] = useState("")
 const [successMsg, setSuccessMsg] = useState("");
 const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
+const [existingBookings, setExistingBookings] = useState([]);
 // const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
+
+//razorpay
+useEffect(() => {
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  script.async = true;
+  document.body.appendChild(script);
+}, []);
+
+
+const handleRazorpayPayment = async () => {
+  const res = await fetch("http://localhost:8000/sports/create-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: totalAmount }),
+  });
+
+  const orderData = await res.json();
+
+  const options = {
+    key: "rzp_test_i1ObE9ri0Ub6OK", // from Razorpay dashboard
+    amount: orderData.amount,
+    currency: orderData.currency,
+    name: "Turf Booking",
+    description: `Booking for ${turf.turf_name}`,
+    order_id: orderData.id,
+    handler: function (response) {
+      // Success handler
+      console.log("Payment success:", response);
+      submitBooking(); // Call form submit logic here
+    },
+    prefill: {
+      name: getUser.firstname,
+      email: getEmail,
+      contact: getPhone,
+    },
+    theme: {
+      color: "#3399cc",
+    },
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
+
+
+
+
 
 useEffect(()=>{
     fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
         console.log("Fetched turf:",result);
         setTurf(result)
     })
-},[turfId])
+
+// Fetch bookings for this turf
+  fetch(`http://localhost:8000/sports/bookingview?user=${getUser._id}`)
+    .then((res) => res.json())
+    .then((bookings) => {
+      setExistingBookings(bookings);
+    });
+}, [turfId]);
+
+
 
 if (!turf || !turf.images || turf.images.length === 0) {
     return <div>Loading...</div>;
 }
 
+
+// Convert "HH:MM" → decimal hours
+const parseTime = (timeStr) => {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return hours + minutes / 60;
+};
+
+// Convert decimal hours → "HH:MM"
+const formatTime = (decimal) => {
+  const hours = Math.floor(decimal);
+  const minutes = Math.round((decimal - hours) * 60);
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+};
+
+
 const handleForm = (e)=>{
     e.preventDefault()
-    let params = {
-        turf:turf.turf_name,
-        name:getUser.firstname,
-        sports:turf.sports?.sports_name,
-        date:getDate,
-        time:getTime,
-        duration:getDuration,
-        email:getEmail,
-        phone:getPhone,
-        persons:getPerson,
-        total_amount:totalAmount,
-        user:getUser._id
-        // owner:getOwner._id
-    }
-    fetch("http://localhost:8000/sports/booking",{
-        method:"post",
-        headers:{
-            Accept:"application/json",
-            "Content-Type":"application/json"
-        },body:JSON.stringify(params)
-    }).then((res)=>res.json()).then((result)=>{
-        console.log("inserted",result);
-        alert("✅ Payment submitted successfully!");
-        // Optional: Reset form
-        setName(""); setDate(""); setTime(""); setDuration("");
-        setEmail(""); setPhone(""); setPerson("");
 
 
-        navigate(`/bookingstatus`);
+  const selectedStart = parseTime(getTime);
+  const selectedEnd = selectedStart + parseFloat(getDuration);
+  
 
-    })
+   // Conflict check
+  const isConflict = existingBookings.some((booking) => {
+    if (booking.date !== getDate) return false;
+
+    const bookingStart = parseTime(booking.time);
+    const bookingEnd = bookingStart + parseFloat(booking.duration);
+    
+
+    return (
+      (selectedStart >= bookingStart && selectedStart < bookingEnd) || // new start inside existing
+      (selectedEnd > bookingStart && selectedEnd <= bookingEnd) || // new end inside existing
+      (selectedStart <= bookingStart && selectedEnd >= bookingEnd) // overlaps entire booking
+    );
+  });
+
+  if (isConflict) {
+    alert("❌ Time slot overlaps with an existing booking. Please choose a different time.");
+    return;
+  }
+
+  // ✅ Call Razorpay only after no conflict
+  handleRazorpayPayment();
+
+    // let params = {
+    //     turf:turf.turf_name,
+    //     name:getUser.firstname,
+    //     sports:turf.sports?.sports_name,
+    //     date:getDate,
+    //     time:getTime,
+    //     duration:getDuration,
+    //     email:getEmail,
+    //     phone:getPhone,
+    //     persons:getPerson,
+    //     total_amount:totalAmount,
+    //     user:getUser._id
+    //     // owner:getOwner._id
+    // }
+    // fetch("http://localhost:8000/sports/booking",{
+    //     method:"post",
+    //     headers:{
+    //         Accept:"application/json",
+    //         "Content-Type":"application/json"
+    //     },body:JSON.stringify(params)
+    // }).then((res)=>res.json()).then((result)=>{
+    //     console.log("inserted",result);
+    //     alert("✅ Payment submitted successfully!");
+    //     // Optional: Reset form
+    //     setName(""); setDate(""); setTime(""); setDuration("");
+    //     setEmail(""); setPhone(""); setPerson("");
+
+
+    //     navigate(`/bookingstatus`);
+
+    // })
 }
+
+
+
+const submitBooking = () => {
+  const params = {
+    turf: turf.turf_name,
+    name: getUser.firstname,
+    sports: turf.sports?.sports_name,
+    date: getDate,
+    time: getTime,
+    duration: getDuration,
+    email: getEmail,
+    phone: getPhone,
+    persons: getPerson,
+    total_amount: totalAmount,
+    user: getUser._id,
+    // owner: getOwner._id
+  };
+
+  fetch("http://localhost:8000/sports/booking", {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      console.log("inserted", result);
+      alert("✅ Payment submitted successfully!");
+
+      // Optional: Reset form
+      setName("");
+      setDate("");
+      setTime("");
+      setDuration("");
+      setEmail("");
+      setPhone("");
+      setPerson("");
+
+      navigate(`/bookingstatus`);
+    });
+};
+
 
 
 const pricePerPerson = Number(turf.price || 0)
@@ -72,8 +220,15 @@ const totalAmount = pricePerPerson * numberOfPersons
 
 
 
+
+
+
     return(
         <>
+
+<UserNav/>
+
+
         {/* <!-- Credit card form --> */}
 <div className="container body-cont">
 
@@ -133,12 +288,6 @@ const totalAmount = pricePerPerson * numberOfPersons
             </div>
 
 
-            {/* <!-- Text input --> */}
-            {/* <div data-mdb-input-init class="form-outline mb-4">
-              <input type="text" id="form6Example4" class="form-control" />
-              <label class="form-label" for="form6Example4">Address</label>
-            </div> */}
-
             {/* <!-- Email input --> */}
             <div data-mdb-input-init class="mb-4">
               <input type="email" id="form6Example5" class="form-control" value={getEmail} onChange={(e)=>setEmail(e.target.value)}/>
@@ -151,80 +300,9 @@ const totalAmount = pricePerPerson * numberOfPersons
               <label class="form-label" for="form6Example6">Phone</label>
             </div>
 
-            {/* <hr class="my-4" /> */}
-
-            {/* <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="checkoutForm1" />
-              <label class="form-check-label" for="checkoutForm1">
-                Shipping address is the same as my billing address
-              </label>
-            </div>
-
-            <div class="form-check mb-4">
-              <input class="form-check-input" type="checkbox" value="" id="checkoutForm2" checked />
-              <label class="form-check-label" for="checkoutForm2">
-                Save this information for next time
-              </label>
-            </div>
-
-            <hr class="my-4" />
-
-            <h5 class="mb-4">Payment</h5>
-
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="checkoutForm3"
-                checked />
-              <label class="form-check-label" for="checkoutForm3">
-                Credit card
-              </label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="checkoutForm4" />
-              <label class="form-check-label" for="checkoutForm4">
-                Debit card
-              </label>
-            </div>
-
-            <div class="form-check mb-4">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="checkoutForm5" />
-              <label class="form-check-label" for="checkoutForm5">
-                Paypal
-              </label>
-            </div>
-
-            <div class="row mb-4">
-              <div class="col">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formNameOnCard" class="form-control" />
-                  <label class="form-label" for="formNameOnCard">Name on card</label>
-                </div>
-              </div>
-              <div class="col">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formCardNumber" class="form-control" />
-                  <label class="form-label" for="formCardNumber">Credit card number</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row mb-4">
-              <div class="col-3">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formExpiration" class="form-control" />
-                  <label class="form-label" for="formExpiration">Expiration</label>
-                </div>
-              </div>
-              <div class="col-3">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formCVV" class="form-control" />
-                  <label class="form-label" for="formCVV">CVV</label>
-                </div>
-              </div>
-            </div> */}
 
             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">
-              Continue to checkout
+              Pay & Book
             </button>
             
 {successMsg && (
@@ -266,6 +344,38 @@ const totalAmount = pricePerPerson * numberOfPersons
           </ul>
         </div>
       </div>
+
+{/* booked slote */}
+            
+<div className="card mb-4">
+  <div className="card-header py-3">
+    <h5 className="mb-0">Booked Time Slots</h5>
+  </div>
+  <div className="card-body">
+    {existingBookings.filter(b => b.date === getDate).length === 0 ? (
+      <p>No bookings for this date.</p>
+    ) : (
+      <ul className="list-group">
+        {existingBookings
+          .filter((booking) => booking.date === getDate)
+          .map((booking, index) => {
+            const start = parseTime(booking.time);
+            const end = start + parseFloat(booking.duration);
+            return (
+              <li key={index} className="list-group-item d-flex justify-content-between">
+                <span>
+                  {booking.time} → {formatTime(end)}
+                </span>
+                <span>{booking.name}</span>
+              </li>
+            );
+          })}
+      </ul>
+    )}
+  </div>
+</div>
+
+
     </div>
   </div>
 </section>
