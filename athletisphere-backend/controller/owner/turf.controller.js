@@ -101,6 +101,7 @@ exports.turfEdit = async(req,res)=>{
     .populate("sports", "sports_name")
     .populate("venues")
     .populate("amenities")
+    .populate("owner")
     res.json(edit)
   }catch(err){
     console.error(err);

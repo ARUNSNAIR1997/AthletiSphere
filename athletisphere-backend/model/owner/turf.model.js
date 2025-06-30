@@ -28,7 +28,9 @@ const turfSchema = mongoose.Schema({
     type: [String],
   },
   owner: {
-    type: String,
+    // type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "owner_signup"
   },
   location:{
     type: String

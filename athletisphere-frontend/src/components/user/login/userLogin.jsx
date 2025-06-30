@@ -45,18 +45,18 @@ const handleForm = (e)=>{
                 <form onSubmit={handleForm}>
 
                   <div className="d-flex align-items-center mb-3 pb-1">
-                    <i className="fas fa-cubes fa-2x me-3"></i>
-                    <span className="h1 fw-bold mb-0">Logo</span>
+                    <i className="fas fa-futbol fa-2x me-3"></i>
+                    <span className="h1 fw-bold mb-0">Athletisphere</span>
                   </div>
 
                   <h5 className="fw-normal mb-3 pb-3">Sign into your account</h5>
 
-                  <div data-mdb-input-init className="form-outline mb-4">
+                  <div data-mdb-input-init className="mb-4">
                     <input type="email" id="form2Example17" className="form-control form-control-lg" value={getEmail} onChange={(e)=>setEmail(e.target.value)}/>
                     <label className="form-label" for="form2Example17">Email address</label>
                   </div>
 
-                  <div data-mdb-input-init className="form-outline mb-4">
+                  <div data-mdb-input-init className="mb-4">
                     <input type="password" id="form2Example27" className="form-control form-control-lg" value={getPassword} onChange={(e)=>setPassword(e.target.value)}/>
                     <label className="form-label" for="form2Example27">Password</label>
                   </div>
@@ -65,7 +65,7 @@ const handleForm = (e)=>{
                     <button data-mdb-button-init data-mdb-ripple-init className="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                   </div>
 
-                  <a className="small text-muted" href="#!">Forgot password?</a>
+                  {/* <a className="small text-muted" href="#!">Forgot password?</a> */}
                   <p className="mb-5 pb-lg-2">Don't have an account? <a href="/userregister"
                       >Register here</a></p>
                   <a href="#!" className="small text-muted">Terms of use.</a>

@@ -39,8 +39,8 @@ const handleForm = (e)=>{
       <div className="col-sm-6 text-black">
 
         <div className="px-5 ms-xl-4">
-          <i className="fas fa-crow fa-2x me-3 pt-5 mt-xl-4"></i>
-          <span className="h1 fw-bold mb-0">Logo</span>
+          <i className="fas fa-futbol fa-2x me-3 pt-5 mt-xl-4"></i>
+          <span className="h1 fw-bold mb-0">Athletisphere</span>
         </div>
 
         <div className="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
@@ -63,8 +63,8 @@ const handleForm = (e)=>{
               <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit">Login</button>
             </div>
 
-            <p className="small mb-5 pb-lg-2"><a className="text-muted" href="#!">Forgot password?</a></p>
-            <p>Don't have an account? <a href="#!" className="link-info">Register here</a></p>
+            {/* <p className="small mb-5 pb-lg-2"><a className="text-muted" href="#!">Forgot password?</a></p> */}
+            {/* <p>Don't have an account? <a href="#!" className="link-info">Register here</a></p> */}
 
           </form>
 

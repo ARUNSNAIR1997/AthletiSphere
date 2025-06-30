@@ -45,7 +45,8 @@ header {
   justify-content: space-between;
   position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 1050;
+  top: 0;
 }
 
 header .logo{
@@ -230,9 +231,9 @@ font-size: 18px;
 }
 
 
-.carousel{
-  z-index: -1;
-}
+/* .carousel{
+  z-index: -900;
+} */
 
 /* booking status */
 /* .total{

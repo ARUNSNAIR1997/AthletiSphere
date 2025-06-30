@@ -65,10 +65,11 @@ const [selectedSport, setSelectedSport] = useState(null)
 <div className="container body-cont">
 
 <div
-  className="carousel"
-  data-mdb-carousel-init class="carousel slide carousel-fade"
+// 
+id="carouselBasicExample"
+  className="carousel slide carousel-fade"
   data-mdb-ride="carousel"
-  data-mdb-interval="3000" 
+  data-mdb-interval="3000"
 >
 
   <div class="carousel-indicators">
@@ -143,7 +144,7 @@ const [selectedSport, setSelectedSport] = useState(null)
 {/* address */}
 <div>
   <p style={{fontSize: "30px"}}>Address</p>
-  <div className="pb-2"><i class="fa-solid fa-location-dot"></i>&nbsp; {getUser.address}, {getUser.district}, {getUser.state}</div>
+  <div className="pb-2"><i class="fa-solid fa-location-dot"></i>&nbsp; {turf.owner?.Address}, {turf.owner?.District}, {turf.owner?.State}</div>
   <div><i class="fa-solid fa-mobile-screen"></i>&nbsp; {getUser.firstnumber}</div>
 </div>
 
