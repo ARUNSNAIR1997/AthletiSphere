@@ -21,13 +21,22 @@ const handleForm = (e)=>{
             "Content-Type":"application/json"
         },
         body:JSON.stringify(params)
-    }).then((res)=>res.json()).then((result)=>{
-        console.log("login successfully",result);
-        if(result!=="invalid"){
-            localStorage.setItem("ownerdata",JSON.stringify(result))
-            window.location.href="/"
-        }
-    })
+    }).then((res)=>res.json())
+    // .then((result)=>{
+    //     console.log("login successfully",result);
+    //     if(result!=="invalid"){
+    //         localStorage.setItem("ownerdata",JSON.stringify(result))
+    //         window.location.href="/"
+    //     }
+    // })
+    .then((result)=>{
+  console.log("login successfully", result);
+  if(result !== "invalid"){
+    localStorage.setItem("ownertoken", result.token); // 🔐 Save token
+    localStorage.setItem("ownerdata", JSON.stringify(result.user)); // Save user data
+    window.location.href = "/";
+  }
+})
 }
 
 

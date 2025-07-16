@@ -12,19 +12,29 @@ const handleForm = (e)=>{
     email:getEmail,
     password:getPassword
   }
-  fetch("http://localhost:8000/sports/userlogin",{
+  fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
     method:"post",
     headers:{
       Accept:'application/json',
       "Content-Type":"application/json"
     },body:JSON.stringify(params)
-  }).then((res)=>res.json()).then((result)=>{
-    console.log("login successfully",result);
-    if(result!=="invalid"){
-      localStorage.setItem("userdata",JSON.stringify(result))
-      window.location.href="/"
-    }
   })
+  // .then((res)=>res.json()).then((result)=>{
+  //   console.log("login successfully",result);
+  //   if(result!=="invalid"){
+  //     localStorage.setItem("userdata",JSON.stringify(result))
+  //     window.location.href="/"
+  //   }
+  // })
+  .then((res)=>res.json()).then((result) => {
+  console.log("login result:", result);
+  if (result !== "invalid") {
+    localStorage.setItem("usertoken", result.token);
+    localStorage.setItem("userdata", JSON.stringify(result.user));
+    window.location.href = "/";
+  }
+});
+
 }
 
     return(

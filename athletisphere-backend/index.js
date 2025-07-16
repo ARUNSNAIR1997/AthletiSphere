@@ -1,4 +1,5 @@
 var express = require("express")
+require('dotenv').config();
 var app = express()
 var cors = require("cors")
 var bodyParser = require("body-parser")
@@ -45,4 +46,10 @@ const dataRouter = require("./route/data.route")
 
 app.use("/sports",dataRouter)
 
-app.listen(8000)
+// app.listen(8000)
+
+const port = process.env.PORT || 8000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

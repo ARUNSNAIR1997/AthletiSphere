@@ -1,5 +1,7 @@
 const signupModel = require("../../model/admin/ownerSignup.model")
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config(); // make sure this is at the top
 
 
 exports.signupIndex = async(req, res)=>{
@@ -31,35 +33,82 @@ exports.signupIndex = async(req, res)=>{
 
 
 
-exports.signupLogin = async(req, res) => {
+// exports.signupLogin = async(req, res) => {
+//   try {
+//     const { Email, Password } = req.body;
+
+//     console.log("➡️ Login request received");
+//     console.log("Email:", Email);
+//     console.log("Password (plain):", Password);
+
+//     const user = await signupModel.findOne({ Email });  // Step 1: User Lookup
+
+//     if (!user) {
+//       console.log("❌ User not found");
+//       return res.status(401).json("invalid");           // Step 2: Email not found
+//     }
+
+//     console.log("✅ User found:", user);
+
+//     const isMatch = await bcrypt.compare(Password, user.Password); // Step 3: Password check
+//     if (!isMatch) {
+//       console.log("❌ Password incorrect");
+//       return res.status(401).json("invalid");            // Step 4: Wrong password
+//     }
+
+//     if (user.role === "owner") {  
+//       console.log("✅ Role is owner");                       // Step 5: Role check
+//       req.session.user = user;
+//       return res.json(user);                             // ✅ Login success
+//     } else {
+//       return res.status(401).json("invalid");            // Step 6: Role mismatch
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json("server error");
+//   }
+// };
+
+exports.signupLogin = async (req, res) => {
   try {
     const { Email, Password } = req.body;
 
-    console.log("➡️ Login request received");
-    console.log("Email:", Email);
-    console.log("Password (plain):", Password);
-
-    const user = await signupModel.findOne({ Email });  // Step 1: User Lookup
+    const user = await signupModel.findOne({ Email });
 
     if (!user) {
-      console.log("❌ User not found");
-      return res.status(401).json("invalid");           // Step 2: Email not found
+      return res.status(401).json("invalid");
     }
 
-    console.log("✅ User found:", user);
-
-    const isMatch = await bcrypt.compare(Password, user.Password); // Step 3: Password check
+    const isMatch = await bcrypt.compare(Password, user.Password);
     if (!isMatch) {
-      console.log("❌ Password incorrect");
-      return res.status(401).json("invalid");            // Step 4: Wrong password
+      return res.status(401).json("invalid");
     }
 
-    if (user.role === "owner") {  
-      console.log("✅ Role is owner");                       // Step 5: Role check
-      req.session.user = user;
-      return res.json(user);                             // ✅ Login success
+    if (user.role === "owner") {
+      // 🔐 Create JWT token
+      const token = jwt.sign(
+        {
+          id: user._id,
+          email: user.Email
+          // role: user.role,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "2h" }
+      );
+
+      // ✅ Send token and minimal user info to frontend
+      // return res.json({
+      //   token,
+      //   user: {
+      //     id: user._id,
+      //     email: user.Email
+      //     // turf: user.Turf_Name,
+      //     // role: user.role,
+      //   },
+      // });
+      return res.json({token,user});
     } else {
-      return res.status(401).json("invalid");            // Step 6: Role mismatch
+      return res.status(401).json("invalid");
     }
   } catch (err) {
     console.error(err);
