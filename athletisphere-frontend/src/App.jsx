@@ -49,14 +49,18 @@ import Footer from './components/partials/footer'
 
 function App() {
 
-const [getAdmin, setAdmin] = useState(JSON.parse(localStorage.getItem("admindata")))
-const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
-const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
+// const [getAdmin, setAdmin] = useState(JSON.parse(localStorage.getItem("admindata")))
+// const [getOwner, setOwner] = useState(JSON.parse(localStorage.getItem("ownerdata")))
+// const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
+
+const getAdmin = JSON.parse(localStorage.getItem("admindata"));
+  const getOwner = JSON.parse(localStorage.getItem("ownerdata"));
+  const getUser = JSON.parse(localStorage.getItem("userdata"));
 
   return (
     <>
     {/* Admin */}
-    <BrowserRouter>
+    {/* <BrowserRouter>
     { getAdmin === null ? (
     <Routes>
     
@@ -84,11 +88,11 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
       </Routes>
     ) : ''
     }
-    </BrowserRouter>
+    </BrowserRouter> */}
 
 
     {/* Owner */}
-    <BrowserRouter>
+    {/* <BrowserRouter>
     { getOwner === null ? (
     <Routes>
       <Route path='/ownerlogin' element={<OwnerLogin/>}/>
@@ -108,11 +112,11 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
       </Routes>
       ) : ''
     }
-    </BrowserRouter>
+    </BrowserRouter> */}
 
 
     {/* user */}
-    <BrowserRouter>
+    {/* <BrowserRouter>
     { getUser === null ? (
     <Routes>
       <Route path='/' element={<UserSignup/>}/>
@@ -136,7 +140,53 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
       </Routes>
       ) : ''
     }
+    </BrowserRouter> */}
+
+
+    <BrowserRouter>
+      <Routes>
+        {/* Admin Auth Routes */}
+        {!getAdmin && !getOwner && !getUser && (
+          <>
+            <Route path="/adminregister" element={<AdminRegister />} />
+            <Route path="/adminlogin" element={<AdminLogin />} />
+            <Route path="/ownerlogin" element={<OwnerLogin />} />
+            <Route path="/" element={<UserSignup />} />
+            <Route path="/userregister" element={<UserRegister />} />
+          </>
+        )}
+
+        {/* Admin Routes */}
+        {getAdmin?.role === "admin" && (
+          <>
+            <Route path="/" element={<AdminHome />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/registerview" element={<RegisterView />} />
+            {/* Add other admin routes */}
+          </>
+        )}
+
+        {/* Owner Routes */}
+        {getOwner?.role === "owner" && (
+          <>
+            <Route path="/" element={<TurfView />} />
+            <Route path="/turf" element={<TurfOwner />} />
+            {/* Add other owner routes */}
+          </>
+        )}
+
+        {/* User Routes */}
+        {getUser?.role === "user" && (
+          <>
+            <Route path="/" element={<UserHome />} />
+            <Route path="/allturf/:sportsId" element={<AllTurf />} />
+            <Route path="/booking/:turfId" element={<Booking />} />
+            {/* Add other user routes */}
+          </>
+        )}
+      </Routes>
     </BrowserRouter>
+
     </>
   )
 }
