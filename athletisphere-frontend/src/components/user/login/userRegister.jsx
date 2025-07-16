@@ -43,7 +43,7 @@ const handleForm = ()=>{
   fromData.append("password",getPassword)
   fromData.append("role","user")
   
-    fetch("http://localhost:8000/sports/userregister",{
+    fetch(`${process.env.REACT_APP_API_URL}/sports/userregister`,{
         method:"post",
         body: fromData
     }).then((res)=>res.json()).then((result)=>{
