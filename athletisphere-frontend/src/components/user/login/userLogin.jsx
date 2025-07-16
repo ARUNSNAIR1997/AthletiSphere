@@ -13,13 +13,13 @@ const handleForm = (e)=>{
     password:getPassword
   }
   // http://localhost:8000/sports/userlogin change this fetch
-  fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
-    method:"post",
-    headers:{
-      Accept:'application/json',
-      "Content-Type":"application/json"
-    },body:JSON.stringify(params)
-  })
+  // fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
+  //   method:"post",
+  //   headers:{
+  //     Accept:'application/json',
+  //     "Content-Type":"application/json"
+  //   },body:JSON.stringify(params)
+  // })
   // .then((res)=>res.json()).then((result)=>{
   //   console.log("login successfully",result);
   //   if(result!=="invalid"){
@@ -27,14 +27,43 @@ const handleForm = (e)=>{
   //     window.location.href="/"
   //   }
   // })
-  .then((res)=>res.json()).then((result) => {
-  console.log("login result:", result);
-  if (result !== "invalid") {
-    localStorage.setItem("usertoken", result.token);
-    localStorage.setItem("userdata", JSON.stringify(result.user));
-    window.location.href = "/";
-  }
-});
+//   .then((res)=>res.json()).then((result) => {
+//   console.log("login result:", result);
+//   if (result !== "invalid") {
+//     localStorage.setItem("usertoken", result.token);
+//     localStorage.setItem("userdata", JSON.stringify(result.user));
+//     window.location.href = "/";
+//   }
+// });
+
+fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
+  method: "POST",
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(params)
+})
+  .then(async (res) => {
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({ message: "Unknown error" }));
+      throw new Error(errorData.message || "Login failed");
+    }
+    return res.json(); // this is where the error was before
+  })
+  .then((result) => {
+    console.log("login result:", result);
+    if (result.token) {
+      localStorage.setItem("usertoken", result.token);
+      localStorage.setItem("userdata", JSON.stringify(result.user));
+      window.location.href = "/";
+    }
+  })
+  .catch((err) => {
+    console.error("Login error:", err.message);
+    alert("Login failed: " + err.message);
+  });
+
 
 }
 
