@@ -11,7 +11,7 @@ const { commentId } = useParams();
   const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")));
 
   useEffect(() => {
-    fetch(`http://localhost:8000/sports/socialviewcomment/${commentId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/sports/socialviewcomment/${commentId}`)
       .then((res) => res.json())
       .then((result) => {
         console.log("Fetched single post:", result);
@@ -25,7 +25,7 @@ const { commentId } = useParams();
       user: getUser.firstname,
       comment: text
     };
-    await fetch(`http://localhost:8000/sports/socialcomment/${id}`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/sports/socialcomment/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params)
@@ -35,7 +35,7 @@ const { commentId } = useParams();
   };
 
   const refreshPost = () => {
-    fetch(`http://localhost:8000/sports/socialviewcomment/${commentId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/sports/socialviewcomment/${commentId}`)
       .then((res) => res.json())
       .then((result) => setView(result));
   };
