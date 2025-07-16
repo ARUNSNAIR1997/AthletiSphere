@@ -63,7 +63,7 @@ const handleDelete = (bookId)=>{
                   </div>
                 </div>
                 <div className="card-footer d-flex justify-content-between">
-                  <Link className="btn btn-sm btn-warning btn-sm" to="/turfupdate" state={{ id: item._id }}>Edit</Link>
+                  {/* <Link className="btn btn-sm btn-warning btn-sm" to="/turfupdate" state={{ id: item._id }}>Edit</Link> */}
                   <button className="btn btn-danger btn-sm" onClick={() => handleDelete(item._id)}>Delete</button>
                 </div>
               </div>
