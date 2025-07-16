@@ -12,7 +12,7 @@ const navigate = useNavigate()
 const [searchTerm, setSearchTerm] = useState("");
 
 useEffect(()=>{
-    fetch(`http://localhost:8000/sports/turfuserview?sports=${sportsId}&location=${searchTerm}`).then((res)=>res.json()).then((result)=>{
+    fetch(`${process.env.REACT_APP_API_URL}/sports/turfuserview?sports=${sportsId}&location=${searchTerm}`).then((res)=>res.json()).then((result)=>{
         console.log(result);
         setView(result)
     })
