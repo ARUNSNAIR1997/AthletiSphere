@@ -81,14 +81,15 @@ exports.userLogin = async (req, res) => {
     const user = await userSignupModel.findOne({ email });
 
     if (!user) {
-      return res.status(401).json("invalid");
+      return res.status(401).json({ message: "invalid" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).json("invalid");
+      return res.status(401).json({ message: "invalid" });
     }
+    
 
     if (user.role === "user") {
       // Generate JWT token
@@ -109,7 +110,7 @@ exports.userLogin = async (req, res) => {
     //       role: user.role,
     //     },
     //   });
-    return res.json({token,user});
+    return res.status(200).json({ token, user }); // success
     } else {
       return res.status(401).json("invalid");
     }

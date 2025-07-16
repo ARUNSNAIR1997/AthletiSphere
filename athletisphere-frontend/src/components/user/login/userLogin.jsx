@@ -36,20 +36,58 @@ const handleForm = (e)=>{
 //   }
 // });
 
+// fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
+//   method: "POST",
+//   headers: {
+//     Accept: "application/json",
+//     "Content-Type": "application/json"
+//   },
+//   body: JSON.stringify(params)
+// })
+//   .then(async (res) => {
+//     if (!res.ok) {
+//       const errorData = await res.json().catch(() => ({ message: "Unknown error" }));
+//       throw new Error(errorData.message || "Login failed");
+//     }
+//     return res.json(); // this is where the error was before
+//   })
+//   .then((result) => {
+//     console.log("login result:", result);
+//     if (result.token) {
+//       localStorage.setItem("usertoken", result.token);
+//       localStorage.setItem("userdata", JSON.stringify(result.user));
+//       window.location.href = "/";
+//     }
+//   })
+//   .catch((err) => {
+//     console.error("Login error:", err.message);
+//     alert("Login failed: " + err.message);
+//   });
+
 fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
   method: "POST",
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   },
-  body: JSON.stringify(params)
+  body: JSON.stringify(params),
 })
   .then(async (res) => {
+    const contentType = res.headers.get("Content-Type");
     if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ message: "Unknown error" }));
-      throw new Error(errorData.message || "Login failed");
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Login failed");
+      } else {
+        throw new Error("Non-JSON response");
+      }
     }
-    return res.json(); // this is where the error was before
+
+    if (contentType && contentType.includes("application/json")) {
+      return res.json();
+    } else {
+      throw new Error("Expected JSON response, got something else");
+    }
   })
   .then((result) => {
     console.log("login result:", result);
