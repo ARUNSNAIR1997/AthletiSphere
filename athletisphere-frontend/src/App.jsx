@@ -115,7 +115,7 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
     <BrowserRouter>
     { getUser === null ? (
     <Routes>
-      <Route path='/userlogin' element={<UserSignup/>}/>
+      <Route path='/' element={<UserSignup/>}/>
       <Route path='/userregister' element={<UserRegister/>}/>
       <Route path='/usernav' element={<UserNav/>}/>
     </Routes>

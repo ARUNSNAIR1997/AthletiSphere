@@ -12,7 +12,8 @@ const handleForm = (e)=>{
     email:getEmail,
     password:getPassword
   }
-  fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
+  // http://localhost:8000/sports/userlogin change this fetch
+  fetch("http://localhost:8000/sports/userlogin",{
     method:"post",
     headers:{
       Accept:'application/json',
