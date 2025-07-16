@@ -15,7 +15,7 @@ const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata"))
 
 //sports
 useEffect(()=>{
-    fetch("http://localhost:8000/sports/sportsview").then((res)=>res.json()).then((result)=>{
+    fetch(`${process.env.REACT_APP_API_URL}/sports/sportsview`).then((res)=>res.json()).then((result)=>{
         console.log("viewed",result);
         setSports(result) 
     })

@@ -17,7 +17,7 @@ const [turf, setTurf] = useState(null)
 const [getUser, setUser] = useState(JSON.parse(localStorage.getItem("userdata")))
 
 useEffect(()=>{
-    fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
+    fetch(`${process.env.REACT_APP_API_URL}/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
         console.log("Fetched turf:",result);
         setTurf(result)
     })
@@ -33,7 +33,7 @@ const [selectedSport, setSelectedSport] = useState(null)
     useEffect(()=>{
 
       if (!turf) return;
-        fetch("http://localhost:8000/sports/sportsview").then((res)=>res.json()).then((result)=>{
+        fetch(`${process.env.REACT_APP_API_URL}/sports/sportsview`).then((res)=>res.json()).then((result)=>{
             console.log("viewed",result);
             setView(result) 
 

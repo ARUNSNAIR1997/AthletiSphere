@@ -31,7 +31,7 @@ useEffect(() => {
 
 
 const handleRazorpayPayment = async () => {
-  const res = await fetch("http://localhost:8000/sports/create-order", {
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/sports/create-order`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ amount: totalAmount }),
@@ -70,13 +70,13 @@ const handleRazorpayPayment = async () => {
 
 
 useEffect(()=>{
-    fetch(`http://localhost:8000/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
+    fetch(`${process.env.REACT_APP_API_URL}/sports/turfedit/${turfId}`).then((res)=>res.json()).then((result)=>{
         console.log("Fetched turf:",result);
         setTurf(result)
     })
 
 // Fetch bookings for this turf
-  fetch(`http://localhost:8000/sports/bookingview?user=${getUser._id}`)
+  fetch(`${process.env.REACT_APP_API_URL}/sports/bookingview?user=${getUser._id}`)
     .then((res) => res.json())
     .then((bookings) => {
       setExistingBookings(bookings);
