@@ -98,7 +98,7 @@ fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
     }
   })
   .catch((err) => {
-    console.error("Login error:", err.message);
+    // console.error("Login error:", err.message);
     alert("Login failed: " + err.message);
   });
 
