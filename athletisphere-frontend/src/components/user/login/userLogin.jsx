@@ -29,7 +29,6 @@ const handleForm = (e)=>{
   //     window.location.href="/"
   //   }
   // })
-<<<<<<< HEAD
   .then((res)=>res.json()).then((result) => {
   console.log("login result:", result);
   if (result !== "invalid") {
@@ -38,8 +37,8 @@ const handleForm = (e)=>{
     // window.location.href = "/";
     navigate("/");
   }
-});
-=======
+})
+
 //   .then((res)=>res.json()).then((result) => {
 //   console.log("login result:", result);
 //   if (result !== "invalid") {
@@ -115,7 +114,7 @@ fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
     alert("Login failed: " + err.message);
   });
 
->>>>>>> eb9237e6592bccf275823534d39bbc03a6a7cee3
+// >>>>>>> eb9237e6592bccf275823534d39bbc03a6a7cee3
 
 }
 
