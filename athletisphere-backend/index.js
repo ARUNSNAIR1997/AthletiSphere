@@ -12,7 +12,7 @@ var database = require("./config/database")
 // app.use(cors())
 // app.use(cors({ origin: "https://athletisphere-frontend-user.onrender.com/", credentials: true }));
 
-app.use(cors({
+app.use('*',cors({
   origin: "https://athletisphere-frontend-user.onrender.com", // your frontend domain
   credentials: true, // only if you're using sessions or cookies
 }));
