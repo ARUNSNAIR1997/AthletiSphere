@@ -6,6 +6,8 @@ function UserSignup(){
 
 const [getEmail, setEmail] = useState("")
 const [getPassword, setPassword] = useState("")
+  const apiUrl = process.env.REACT_APP_API_URL;
+
 // const navigate = useNavigate();
 
 const handleForm = (e)=>{
@@ -15,7 +17,7 @@ const handleForm = (e)=>{
     password:getPassword
   }
   // http://localhost:8000/sports/userlogin change this fetch
-  fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
+  fetch(`${apiUrl}/sports/userlogin`,{
     method:"post",
     headers:{
       Accept:'application/json',
