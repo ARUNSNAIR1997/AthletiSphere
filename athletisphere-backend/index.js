@@ -11,7 +11,7 @@ var database = require("./config/database")
 
 // app.use(cors())
 // app.use(cors({ origin: "https://athletisphere-frontend-user.onrender.com/", credentials: true }));
-const allowedOrigins = ['https://athletisphere-frontend-user.onrender.com'];
+const allowedOrigins = ['https://athletisphere-frontend.netlify.app/'];
 
 app.use(cors({
   origin: allowedOrigins,
