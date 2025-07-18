@@ -6,7 +6,9 @@ function UserSignup(){
 
 const [getEmail, setEmail] = useState("")
 const [getPassword, setPassword] = useState("")
-const navigate = useNavigate();
+  // const apiUrl = process.env.REACT_APP_API_URL;
+
+// const navigate = useNavigate();
 
 const handleForm = (e)=>{
   e.preventDefault()
@@ -107,7 +109,12 @@ const handleForm = (e)=>{
 //     if (result.token) {
 //       localStorage.setItem("usertoken", result.token);
 //       localStorage.setItem("userdata", JSON.stringify(result.user));
+
 //       window.location.href = "/";
+
+//       // window.location.href = "/";
+//       navigate("/");
+
 //     }
 //   })
 //   .catch((err) => {

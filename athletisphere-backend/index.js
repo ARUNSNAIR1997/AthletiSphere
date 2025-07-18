@@ -9,7 +9,15 @@ var path = require("path")
 var database = require("./config/database")
 
 
-app.use(cors())
+// app.use(cors())
+// app.use(cors({ origin: "https://athletisphere-frontend-user.onrender.com/", credentials: true }));
+const allowedOrigins = ['https://athletisphere-frontend-user.onrender.com'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true // if you're using cookies or sessions
+}));
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded())
