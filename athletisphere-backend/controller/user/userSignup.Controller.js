@@ -110,7 +110,17 @@ exports.userLogin = async (req, res) => {
     //       role: user.role,
     //     },
     //   });
-    return res.status(200).json({ token, user }); // success
+    // return res.status(200).json({ token, user }); // success
+        return res.status(200).json({
+        token,
+        user: {
+          id: user._id,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          role: user.role,
+        },
+      });
     } else {
       return res.status(401).json("invalid");
     }
