@@ -10,7 +10,12 @@ var database = require("./config/database")
 
 
 // app.use(cors())
-app.use(cors({ origin: "https://athletisphere-frontend-user.onrender.com/", credentials: true }));
+// app.use(cors({ origin: "https://athletisphere-frontend-user.onrender.com/", credentials: true }));
+app.use(cors({
+  origin: ["https://your-frontend.onrender.com"],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
 
 
 // parse application/x-www-form-urlencoded
