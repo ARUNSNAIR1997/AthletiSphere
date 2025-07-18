@@ -6,7 +6,7 @@ function UserSignup(){
 
 const [getEmail, setEmail] = useState("")
 const [getPassword, setPassword] = useState("")
-const navigate = useNavigate();
+// const navigate = useNavigate();
 
 const handleForm = (e)=>{
   e.preventDefault()
@@ -15,13 +15,13 @@ const handleForm = (e)=>{
     password:getPassword
   }
   // http://localhost:8000/sports/userlogin change this fetch
-  // fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
-  //   method:"post",
-  //   headers:{
-  //     Accept:'application/json',
-  //     "Content-Type":"application/json"
-  //   },body:JSON.stringify(params)
-  // })
+  fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`,{
+    method:"post",
+    headers:{
+      Accept:'application/json',
+      "Content-Type":"application/json"
+    },body:JSON.stringify(params)
+  })
   // .then((res)=>res.json()).then((result)=>{
   //   console.log("login successfully",result);
   //   if(result!=="invalid"){
@@ -39,14 +39,14 @@ const handleForm = (e)=>{
 //   }
 // })
 
-//   .then((res)=>res.json()).then((result) => {
-//   console.log("login result:", result);
-//   if (result !== "invalid") {
-//     localStorage.setItem("usertoken", result.token);
-//     localStorage.setItem("userdata", JSON.stringify(result.user));
-//     window.location.href = "/";
-//   }
-// });
+  .then((res)=>res.json()).then((result) => {
+  console.log("login result:", result);
+  if (result !== "invalid") {
+    localStorage.setItem("usertoken", result.token);
+    localStorage.setItem("userdata", JSON.stringify(result.user));
+    window.location.href = "/";
+  }
+});
 
 // fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
 //   method: "POST",
@@ -76,44 +76,44 @@ const handleForm = (e)=>{
 //     alert("Login failed: " + err.message);
 //   });
 
-fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
-  method: "POST",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(params),
-})
-  .then(async (res) => {
-    const contentType = res.headers.get("Content-Type");
-    if (!res.ok) {
-      if (contentType && contentType.includes("application/json")) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Login failed");
-      } else {
-        throw new Error("Non-JSON response");
-      }
-    }
+// fetch(`${process.env.REACT_APP_API_URL}/sports/userlogin`, {
+//   method: "POST",
+//   headers: {
+//     Accept: "application/json",
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify(params),
+// })
+//   .then(async (res) => {
+//     const contentType = res.headers.get("Content-Type");
+//     if (!res.ok) {
+//       if (contentType && contentType.includes("application/json")) {
+//         const errorData = await res.json();
+//         throw new Error(errorData.message || "Login failed");
+//       } else {
+//         throw new Error("Non-JSON response");
+//       }
+//     }
 
-    if (contentType && contentType.includes("application/json")) {
-      return res.json();
-    } else {
-      throw new Error("Expected JSON response, got something else");
-    }
-  })
-  .then((result) => {
-    console.log("login result:", result);
-    if (result.token) {
-      localStorage.setItem("usertoken", result.token);
-      localStorage.setItem("userdata", JSON.stringify(result.user));
-      // window.location.href = "/";
-      navigate("/");
-    }
-  })
-  .catch((err) => {
-    // console.error("Login error:", err.message);
-    alert("Login failed: " + err.message);
-  });
+//     if (contentType && contentType.includes("application/json")) {
+//       return res.json();
+//     } else {
+//       throw new Error("Expected JSON response, got something else");
+//     }
+//   })
+//   .then((result) => {
+//     console.log("login result:", result);
+//     if (result.token) {
+//       localStorage.setItem("usertoken", result.token);
+//       localStorage.setItem("userdata", JSON.stringify(result.user));
+//       // window.location.href = "/";
+//       navigate("/");
+//     }
+//   })
+//   .catch((err) => {
+//     // console.error("Login error:", err.message);
+//     alert("Login failed: " + err.message);
+//   });
 
 // >>>>>>> eb9237e6592bccf275823534d39bbc03a6a7cee3
 
